@@ -1,3 +1,3 @@
-module github.com/aehyok/go-services
+module goservices
 
 go 1.19
