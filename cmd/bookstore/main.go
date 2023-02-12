@@ -1,6 +1,7 @@
 package main
 
 import (
+	_  "goservices/internal/store"
 	api "goservices/server"
 	"fmt"
 	"net/http"
