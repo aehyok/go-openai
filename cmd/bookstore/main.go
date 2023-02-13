@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"time"
 
+	"goservices/store"
 	// "gorm.io/driver/sqlite"
 	"github.com/gin-gonic/gin"
 	"gorm.io/driver/mysql"
@@ -34,18 +35,8 @@ func main() {
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second) // 10秒钟
 
-	// 结构体
-	type List struct {
-		gorm.Model        // 主键
-		Name       string `gorm:"type:varchar(20); not null" json:"name" binding:"required"`
-		State      string `gorm:"type:varchar(20); not null" json:"state" binding:"required"`
-		Phone      string `gorm:"type:varchar(20); not null" json:"phone" binding:"required"`
-		Email      string `gorm:"type:varchar(40); not null" json:"email" binding:"required"`
-		Address    string `gorm:"type:varchar(200); not null" json:"address" binding:"required"`
-	}
-
-	// 迁移
-	db.AutoMigrate(&List{})
+	// // 迁移
+	// db.AutoMigrate(&store.List{})
 
 	// 接口
 	r := gin.Default()
@@ -62,7 +53,7 @@ func main() {
 	// 增
 	r.POST("/user/add", func(ctx *gin.Context) {
 		// 定义一个变量指向结构体
-		var data List
+		var data store.List
 		// 绑定方法
 		err := ctx.ShouldBindJSON(&data)
 		// 判断绑定是否有错误
@@ -90,7 +81,7 @@ func main() {
 
 	// Restful编码规范
 	r.DELETE("/user/delete/:id", func(ctx *gin.Context) {
-		var data []List
+		var data []store.List
 		// 接收id
 		id := ctx.Param("id") // 如果有键值对形式的话用Query()
 		// 判断id是否存在
@@ -118,7 +109,7 @@ func main() {
 		// 1. 找到对应的id所对应的条目
 		// 2. 判断id是否存在
 		// 3. 修改对应条目 or 返回id没有找到
-		var data List
+		var data store.List
 		id := ctx.Param("id")
 		// db.Where("id = ?", id).Find(&data) 可以这样写，也可以写成下面那样
 		// 还可以再Where后面加上Count函数，可以查出来这个条件对应的条数
@@ -152,7 +143,7 @@ func main() {
 	r.GET("/user/list/:name", func(ctx *gin.Context) {
 		// 获取路径参数
 		name := ctx.Param("name")
-		var dataList []List
+		var dataList []store.List
 		// 查询数据库
 		db.Where("name = ? ", name).Find(&dataList)
 		// 判断是否查询到数据
@@ -173,7 +164,7 @@ func main() {
 
 	// 第二种：全部查询 / 分页查询
 	r.GET("/user/list", func(ctx *gin.Context) {
-		var dataList []List
+		var dataList []store.List
 		// 查询全部数据 or 查询分页数据
 		pageSize, _ := strconv.Atoi(ctx.Query("pageSize"))
 		pageNum, _ := strconv.Atoi(ctx.Query("pageNum"))
