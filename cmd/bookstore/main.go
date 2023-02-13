@@ -33,7 +33,7 @@ func main() {
 	sqlDB.SetMaxOpenConns(100)
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
 	sqlDB.SetConnMaxLifetime(10 * time.Second) // 10秒钟
-+
+
 	// 结构体
 	type List struct {
 		gorm.Model        // 主键
