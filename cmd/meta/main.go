@@ -1,43 +1,17 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
-	"time"
 
+	"goservices/model"
 	"goservices/store"
+
 	// "gorm.io/driver/sqlite"
 	"github.com/gin-gonic/gin"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 func main() {
-	// 如何连接数据库 ? MySQL + Navicat
-	// 需要更改的内容：用户名，密码，数据库名称
-	dsn := "root:M9y2512!@tcp(175.178.60.76:3306)/meta?charset=utf8mb4&parseTime=True&loc=Local"
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-		},
-	})
-
-	fmt.Println("db = ", db)
-	fmt.Println("err = ", err)
-
-	// 连接池
-	sqlDB, err := db.DB()
-	// SetMaxIdleConns 设置空闲连接池中连接的最大数量
-	sqlDB.SetMaxIdleConns(10)
-	// SetMaxOpenConns 设置打开数据库连接的最大数量。
-	sqlDB.SetMaxOpenConns(100)
-	// SetConnMaxLifetime 设置了连接可复用的最大时间。
-	sqlDB.SetConnMaxLifetime(10 * time.Second) // 10秒钟
-
-	// // 迁移
-	// db.AutoMigrate(&store.List{})
-
+	model.Database()
 	// 接口
 	r := gin.Default()
 
@@ -65,7 +39,7 @@ func main() {
 			})
 		} else {
 			// 数据库的操作
-			db.Create(&data) // 创建一条数据
+			model.DB.Create(&data) // 创建一条数据
 			ctx.JSON(200, gin.H{
 				"msg":  "添加成功",
 				"data": data,
@@ -85,7 +59,7 @@ func main() {
 		// 接收id
 		id := ctx.Param("id") // 如果有键值对形式的话用Query()
 		// 判断id是否存在
-		db.Where("id = ? ", id).Find(&data)
+		model.DB.Where("id = ? ", id).Find(&data)
 		if len(data) == 0 {
 			ctx.JSON(200, gin.H{
 				"msg":  "id没有找到，删除失败",
@@ -94,7 +68,7 @@ func main() {
 		} else {
 			// 操作数据库删除（删除id所对应的那一条）
 			// db.Where("id = ? ", id).Delete(&data) <- 其实不需要这样写，因为查到的data里面就是要删除的数据
-			db.Delete(&data)
+			model.DB.Delete(&data)
 
 			ctx.JSON(200, gin.H{
 				"msg":  "删除成功",
@@ -113,7 +87,7 @@ func main() {
 		id := ctx.Param("id")
 		// db.Where("id = ?", id).Find(&data) 可以这样写，也可以写成下面那样
 		// 还可以再Where后面加上Count函数，可以查出来这个条件对应的条数
-		db.Select("id").Where("id = ? ", id).Find(&data)
+		model.DB.Select("id").Where("id = ? ", id).Find(&data)
 		if data.ID == 0 {
 			ctx.JSON(200, gin.H{
 				"msg":  "用户id没有找到",
@@ -129,7 +103,7 @@ func main() {
 				})
 			} else {
 				// db修改数据库内容
-				db.Where("id = ?", id).Updates(&data)
+				model.DB.Where("id = ?", id).Updates(&data)
 				ctx.JSON(200, gin.H{
 					"msg":  "修改成功",
 					"code": 200,
@@ -145,7 +119,7 @@ func main() {
 		name := ctx.Param("name")
 		var dataList []store.List
 		// 查询数据库
-		db.Where("name = ? ", name).Find(&dataList)
+		model.DB.Where("name = ? ", name).Find(&dataList)
 		// 判断是否查询到数据
 		if len(dataList) == 0 {
 			ctx.JSON(200, gin.H{
@@ -186,7 +160,7 @@ func main() {
 		var total int64
 
 		// 查询数据库
-		db.Model(dataList).Count(&total).Limit(pageSize).Offset(offsetVal).Find(&dataList)
+		model.DB.Model(dataList).Count(&total).Limit(pageSize).Offset(offsetVal).Find(&dataList)
 
 		if len(dataList) == 0 {
 			ctx.JSON(200, gin.H{
