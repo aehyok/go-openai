@@ -1,4 +1,4 @@
-module goservices
+module geekdemo
 
 go 1.19
 

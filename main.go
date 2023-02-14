@@ -1,8 +1,8 @@
 package main
 
 import (
-	"goservices/model"
-	"goservices/routes"
+	"geekdemo/model"
+	"geekdemo/routes"
 	// "gorm.io/driver/sqlite"
 )
 
