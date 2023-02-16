@@ -7,6 +7,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AddUser godoc
+//
+//	@Summary		添加一个用户
+//	@Description	添加一个用户
+//	@Tags			user
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /api/v1/user/add [post]
 func AddUser(ctx *gin.Context) {
 	// 定义一个变量指向结构体
 	var data model.List
@@ -30,6 +39,15 @@ func AddUser(ctx *gin.Context) {
 	}
 }
 
+// DeleteUser godoc
+// @Summary		删除用户
+// @Description	根据传递的id查找来删除用户
+// @Tags			user
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /api/v1/user/delete/{id} [get]
 func DeleteUser(ctx *gin.Context) {
 	var data []model.List
 	// 接收id
@@ -53,6 +71,15 @@ func DeleteUser(ctx *gin.Context) {
 	}
 }
 
+// UpdateUser godoc
+// @Summary		修改用户
+// @Description	根据传递的用户信息进行更新，必须要传递已存在的id
+// @Tags			user
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /api/v1/user/update [post]
 func UpdateUser(ctx *gin.Context) {
 	// 1. 找到对应的id所对应的条目
 	// 2. 判断id是否存在
@@ -86,6 +113,15 @@ func UpdateUser(ctx *gin.Context) {
 	}
 }
 
+// ListUserByName godoc
+// @Summary		查询用户
+// @Description	根据传递的name查找来用户，可能返回一个或多个用户数据
+// @Tags			user
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /api/v1/user/list/{name} [get]
 func ListUserByName(ctx *gin.Context) {
 	// 获取路径参数
 	name := ctx.Param("name")
@@ -108,6 +144,15 @@ func ListUserByName(ctx *gin.Context) {
 	}
 }
 
+// ListUser godoc
+// @Summary		用户列表
+// @Description	根据传分页信息查询用户列表
+// @Tags			user
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /api/v1/user/list [get]
 func ListUser(ctx *gin.Context) {
 	var dataList []model.List
 	// 查询全部数据 or 查询分页数据

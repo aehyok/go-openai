@@ -1,0 +1,63 @@
+basePath: /api/v1
+info:
+  contact: {}
+  description: geek time
+  title: 极客时间 API
+  version: 0.0.1
+paths:
+  /api/v1/user/add:
+    post:
+      consumes:
+      - application/json
+      description: 添加一个用户
+      produces:
+      - application/json
+      responses: {}
+      summary: 添加一个用户
+      tags:
+      - user
+  /api/v1/user/delete/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 根据传递的id查找来删除用户
+      produces:
+      - application/json
+      responses: {}
+      summary: 删除用户
+      tags:
+      - user
+  /api/v1/user/list:
+    get:
+      consumes:
+      - application/json
+      description: 根据传分页信息查询用户列表
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户列表
+      tags:
+      - user
+  /api/v1/user/list/{name}:
+    get:
+      consumes:
+      - application/json
+      description: 根据传递的name查找来用户，可能返回一个或多个用户数据
+      produces:
+      - application/json
+      responses: {}
+      summary: 查询用户
+      tags:
+      - user
+  /api/v1/user/update:
+    post:
+      consumes:
+      - application/json
+      description: 根据传递的用户信息进行更新，必须要传递已存在的id
+      produces:
+      - application/json
+      responses: {}
+      summary: 修改用户
+      tags:
+      - user
+swagger: "2.0"

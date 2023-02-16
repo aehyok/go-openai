@@ -1,0 +1,92 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "geek time",
+        "title": "极客时间 API",
+        "contact": {},
+        "version": "0.0.1"
+    },
+    "basePath": "/api/v1",
+    "paths": {
+        "/api/v1/user/add": {
+            "post": {
+                "description": "添加一个用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "添加一个用户",
+                "responses": {}
+            }
+        },
+        "/api/v1/user/delete/{id}": {
+            "get": {
+                "description": "根据传递的id查找来删除用户",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "删除用户",
+                "responses": {}
+            }
+        },
+        "/api/v1/user/list": {
+            "get": {
+                "description": "根据传分页信息查询用户列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "用户列表",
+                "responses": {}
+            }
+        },
+        "/api/v1/user/list/{name}": {
+            "get": {
+                "description": "根据传递的name查找来用户，可能返回一个或多个用户数据",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "查询用户",
+                "responses": {}
+            }
+        },
+        "/api/v1/user/update": {
+            "post": {
+                "description": "根据传递的用户信息进行更新，必须要传递已存在的id",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "修改用户",
+                "responses": {}
+            }
+        }
+    }
+}

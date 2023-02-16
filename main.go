@@ -5,6 +5,11 @@ import (
 	"geekdemo/routes"
 )
 
+// @title 极客时间 API
+// @version 0.0.1
+// @description geek time
+// @name aehyok
+// @BasePath /api/v1
 func main() {
 	// 数据库初始化
 	model.Database()

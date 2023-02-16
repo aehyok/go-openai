@@ -1,0 +1,19 @@
+[Unit]
+Description=dvs-basic
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+# modify when deploy in prod env
+
+Type=simple
+#Environment="GIN_MODE=release"
+ExecStart=/usr/local/sunlight/dvs/dvs-basic/dvs-basic
+WorkingDirectory=/usr/local/sunlight/dvs/dvs-basic
+
+Restart=always
+RestartSec=1
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
