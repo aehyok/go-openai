@@ -2,7 +2,6 @@ package routes
 
 import (
 	_ "geekdemo/docs"
-	"geekdemo/service/geek"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -16,13 +15,12 @@ func NewRouter() *gin.Engine {
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler)) // 开启swag
 	// 增
 
+	// Group创建一个新的路由器组。您应该添加所有具有公共中间件或相同路径前缀的路由
 	v1 := r.Group("/api/v1")
 	{
 		UserApi(v1)
+		GeekApi(v1)
 	}
-
-	// 获取productList
-	r.POST("/user/Alllist", geek.ListProduct)
 
 	return r
 }

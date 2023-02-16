@@ -1,18 +1,19 @@
 package geek
 
 import (
-	"github.com/gin-gonic/gin"
-	"strconv"
-	"log"
 	"geekdemo/model"
+	"log"
+	"strconv"
+
+	"github.com/gin-gonic/gin"
 )
 
-func ListProduct(ctx *gin.Context) {
+func GeekList(ctx *gin.Context) {
 	var dataList []model.GeekProduct
 	// 查询全部数据 or 查询分页数据
 	// strconv.Atoi() 字符串转整型   ctx.Query("limit") 截取请求参数
 	cc := ctx.PostForm("limit")
-	log.Println("11111",cc)
+	log.Println("11111", cc)
 	limit, _ := strconv.Atoi(ctx.PostForm("limit"))
 	page, _ := strconv.Atoi(ctx.PostForm("page"))
 
@@ -38,7 +39,7 @@ func ListProduct(ctx *gin.Context) {
 	// 插入
 	// supplier := model.GeekProduct{Title: "全栈", Remark: "牛批"}
 	// model.DB.Create(&supplier)
-	
+
 	if len(dataList) == 0 {
 		ctx.JSON(200, gin.H{
 			"msg":  "没有查询到数据",
@@ -50,8 +51,8 @@ func ListProduct(ctx *gin.Context) {
 			"msg":  "查询成功",
 			"code": 200,
 			"data": gin.H{
-				"list":     dataList,
-				"total":    total,
+				"list":  dataList,
+				"total": total,
 				"page":  page,
 				"limit": limit,
 			},
