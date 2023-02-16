@@ -5,7 +5,7 @@ info:
   title: 极客时间 API
   version: 0.0.1
 paths:
-  /api/v1/user/add:
+  /user/add:
     post:
       consumes:
       - application/json
@@ -16,7 +16,7 @@ paths:
       summary: 添加一个用户
       tags:
       - user
-  /api/v1/user/delete/{id}:
+  /user/delete/{id}:
     get:
       consumes:
       - application/json
@@ -27,7 +27,7 @@ paths:
       summary: 删除用户
       tags:
       - user
-  /api/v1/user/list:
+  /user/list:
     get:
       consumes:
       - application/json
@@ -38,7 +38,7 @@ paths:
       summary: 用户列表
       tags:
       - user
-  /api/v1/user/list/{name}:
+  /user/list/{name}:
     get:
       consumes:
       - application/json
@@ -49,7 +49,7 @@ paths:
       summary: 查询用户
       tags:
       - user
-  /api/v1/user/update:
+  /user/update:
     post:
       consumes:
       - application/json

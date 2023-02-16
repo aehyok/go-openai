@@ -15,7 +15,7 @@ import (
 //	@Accept			json
 //	@Produce		json
 //
-// @Router       /api/v1/user/add [post]
+// @Router       /user/add [post]
 func AddUser(ctx *gin.Context) {
 	// 定义一个变量指向结构体
 	var data model.List
@@ -47,7 +47,7 @@ func AddUser(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //
-// @Router       /api/v1/user/delete/{id} [get]
+// @Router       /user/delete/{id} [get]
 func DeleteUser(ctx *gin.Context) {
 	var data []model.List
 	// 接收id
@@ -79,7 +79,7 @@ func DeleteUser(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //
-// @Router       /api/v1/user/update [post]
+// @Router       /user/update [post]
 func UpdateUser(ctx *gin.Context) {
 	// 1. 找到对应的id所对应的条目
 	// 2. 判断id是否存在
@@ -121,7 +121,7 @@ func UpdateUser(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //
-// @Router       /api/v1/user/list/{name} [get]
+// @Router       /user/list/{name} [get]
 func ListUserByName(ctx *gin.Context) {
 	// 获取路径参数
 	name := ctx.Param("name")
@@ -152,7 +152,7 @@ func ListUserByName(ctx *gin.Context) {
 //	@Accept			json
 //	@Produce		json
 //
-// @Router       /api/v1/user/list [get]
+// @Router       /user/list [get]
 func ListUser(ctx *gin.Context) {
 	var dataList []model.List
 	// 查询全部数据 or 查询分页数据

@@ -8,7 +8,7 @@
     },
     "basePath": "/api/v1",
     "paths": {
-        "/api/v1/user/add": {
+        "/user/add": {
             "post": {
                 "description": "添加一个用户",
                 "consumes": [
@@ -24,7 +24,7 @@
                 "responses": {}
             }
         },
-        "/api/v1/user/delete/{id}": {
+        "/user/delete/{id}": {
             "get": {
                 "description": "根据传递的id查找来删除用户",
                 "consumes": [
@@ -40,7 +40,7 @@
                 "responses": {}
             }
         },
-        "/api/v1/user/list": {
+        "/user/list": {
             "get": {
                 "description": "根据传分页信息查询用户列表",
                 "consumes": [
@@ -56,7 +56,7 @@
                 "responses": {}
             }
         },
-        "/api/v1/user/list/{name}": {
+        "/user/list/{name}": {
             "get": {
                 "description": "根据传递的name查找来用户，可能返回一个或多个用户数据",
                 "consumes": [
@@ -72,7 +72,7 @@
                 "responses": {}
             }
         },
-        "/api/v1/user/update": {
+        "/user/update": {
             "post": {
                 "description": "根据传递的用户信息进行更新，必须要传递已存在的id",
                 "consumes": [
