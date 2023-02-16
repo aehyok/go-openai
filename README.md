@@ -68,5 +68,5 @@ sytemctl daemon-reload
 systemctl status geekdemo.service
 
 // 查看运行日志
-
+journalctl -u geekdemo -f
 ```
