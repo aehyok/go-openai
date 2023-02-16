@@ -10,3 +10,10 @@ type List struct {
 	Email      string `gorm:"type:varchar(40); not null" json:"email" binding:"required"`
 	Address    string `gorm:"type:varchar(200); not null" json:"address" binding:"required"`
 }
+
+
+type GeekProduct struct {
+	gorm.Model        // 主键
+	Title       string `gorm:"type:varchar(20); not null" json:"title" binding:"required"`
+	Remark      string `gorm:"type:varchar(20); not null" json:"remark" binding:"required"`
+}
