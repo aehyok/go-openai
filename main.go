@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+	"geekdemo/middleware"
 	"geekdemo/model"
 	"geekdemo/routes"
 )
@@ -13,6 +15,10 @@ import (
 func main() {
 	// 数据库初始化
 	model.Database()
+
+	tokenString, _ := middleware.GenerateToken(123, "aehyok")
+	fmt.Println("token==", tokenString)
+
 	// 接口路由
 	r := routes.NewRouter()
 	// 端口号
