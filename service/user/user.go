@@ -2,6 +2,7 @@ package user
 
 import (
 	"geekdemo/model"
+	"geekdemo/model/dto"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -16,26 +17,28 @@ import (
 //	@Produce		json
 //
 // @Router       /user/add [post]
-func AddUser(ctx *gin.Context) {
+func AddUser(ctx *gin.Context) dto.ResponseResult {
 	// 定义一个变量指向结构体
 	var data model.List
 	// 绑定方法
 	err := ctx.ShouldBindJSON(&data)
 	// 判断绑定是否有错误
 	if err != nil {
-		ctx.JSON(200, gin.H{
-			"msg":  "添加失败",
-			"data": gin.H{},
-			"code": "400",
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "添加失败",
+		// 	"data": gin.H{},
+		// 	"code": "400",
+		// })
+		return dto.SetResponseFailure("添加失败")
 	} else {
 		// 数据库的操作
 		model.DB.Create(&data) // 创建一条数据
-		ctx.JSON(200, gin.H{
-			"msg":  "添加成功",
-			"data": data,
-			"code": "200",
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "添加成功",
+		// 	"data": data,
+		// 	"code": "200",
+		// })
+		return dto.SetResponseData(data)
 	}
 }
 
@@ -48,26 +51,28 @@ func AddUser(ctx *gin.Context) {
 //	@Produce		json
 //
 // @Router       /user/delete/{id} [get]
-func DeleteUser(ctx *gin.Context) {
+func DeleteUser(ctx *gin.Context) dto.ResponseResult {
 	var data []model.List
 	// 接收id
 	id := ctx.Param("id") // 如果有键值对形式的话用Query()
 	// 判断id是否存在
 	model.DB.Where("id = ? ", id).Find(&data)
 	if len(data) == 0 {
-		ctx.JSON(200, gin.H{
-			"msg":  "id没有找到，删除失败",
-			"code": 400,
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "id没有找到，删除失败",
+		// 	"code": 400,
+		// })
+		return dto.SetResponseFailure("id没有找到，删除失败")
 	} else {
 		// 操作数据库删除（删除id所对应的那一条）
 		// db.Where("id = ? ", id).Delete(&data) <- 其实不需要这样写，因为查到的data里面就是要删除的数据
 		model.DB.Delete(&data)
 
-		ctx.JSON(200, gin.H{
-			"msg":  "删除成功",
-			"code": 200,
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "删除成功",
+		// 	"code": 200,
+		// })
+		return dto.SetResponseSuccess("删除成功")
 	}
 }
 
@@ -80,7 +85,7 @@ func DeleteUser(ctx *gin.Context) {
 //	@Produce		json
 //
 // @Router       /user/update [post]
-func UpdateUser(ctx *gin.Context) {
+func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 	// 1. 找到对应的id所对应的条目
 	// 2. 判断id是否存在
 	// 3. 修改对应条目 or 返回id没有找到
@@ -90,25 +95,28 @@ func UpdateUser(ctx *gin.Context) {
 	// 还可以再Where后面加上Count函数，可以查出来这个条件对应的条数
 	model.DB.Select("id").Where("id = ? ", id).Find(&data)
 	if data.ID == 0 {
-		ctx.JSON(200, gin.H{
-			"msg":  "用户id没有找到",
-			"code": 400,
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "用户id没有找到",
+		// 	"code": 400,
+		// })
+		return dto.SetResponseFailure("用户id没有找到")
 	} else {
 		// 绑定一下
 		err := ctx.ShouldBindJSON(&data)
 		if err != nil {
-			ctx.JSON(200, gin.H{
-				"msg":  "修改失败",
-				"code": 400,
-			})
+			// ctx.JSON(200, gin.H{
+			// 	"msg":  "修改失败",
+			// 	"code": 400,
+			// })
+			return dto.SetResponseSuccess("修改失败")
 		} else {
 			// db修改数据库内容
 			model.DB.Where("id = ?", id).Updates(&data)
-			ctx.JSON(200, gin.H{
-				"msg":  "修改成功",
-				"code": 200,
-			})
+			// ctx.JSON(200, gin.H{
+			// 	"msg":  "修改成功",
+			// 	"code": 200,
+			// })
+			return dto.SetResponseSuccess("修改成功")
 		}
 	}
 }
@@ -122,7 +130,7 @@ func UpdateUser(ctx *gin.Context) {
 //	@Produce		json
 //
 // @Router       /user/list/{name} [get]
-func ListUserByName(ctx *gin.Context) {
+func ListUserByName(ctx *gin.Context) dto.ResponseResult {
 	// 获取路径参数
 	name := ctx.Param("name")
 	var dataList []model.List
@@ -130,17 +138,19 @@ func ListUserByName(ctx *gin.Context) {
 	model.DB.Where("name = ? ", name).Find(&dataList)
 	// 判断是否查询到数据
 	if len(dataList) == 0 {
-		ctx.JSON(200, gin.H{
-			"msg":  "没有查询到数据",
-			"code": "400",
-			"data": gin.H{},
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "没有查询到数据",
+		// 	"code": "400",
+		// 	"data": gin.H{},
+		// })
+		return dto.SetResponseFailure("没有查询到数据")
 	} else {
-		ctx.JSON(200, gin.H{
-			"msg":  "查询成功",
-			"code": "200",
-			"data": dataList,
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "查询成功",
+		// 	"code": "200",
+		// 	"data": dataList,
+		// })
+		return dto.SetResponseData(dataList)
 	}
 }
 
@@ -153,22 +163,22 @@ func ListUserByName(ctx *gin.Context) {
 //	@Produce		json
 //
 // @Router       /user/list [get]
-func ListUser(ctx *gin.Context) {
+func ListUser(ctx *gin.Context) dto.ResponseResult {
 	var dataList []model.List
 	// 查询全部数据 or 查询分页数据
-	pageSize, _ := strconv.Atoi(ctx.Query("pageSize"))
-	pageNum, _ := strconv.Atoi(ctx.Query("pageNum"))
+	limit, _ := strconv.Atoi(ctx.Query("pageSize"))
+	page, _ := strconv.Atoi(ctx.Query("pageNum"))
 
 	// 判断是否需要分页
-	if pageSize == 0 {
-		pageSize = -1
+	if limit == 0 {
+		limit = -1
 	}
-	if pageNum == 0 {
-		pageNum = -1
+	if page == 0 {
+		page = -1
 	}
 
-	offsetVal := (pageNum - 1) * pageSize // 固定写法 记住就行
-	if pageNum == -1 && pageSize == -1 {
+	offsetVal := (page - 1) * limit // 固定写法 记住就行
+	if page == -1 && limit == -1 {
 		offsetVal = -1
 	}
 
@@ -176,24 +186,31 @@ func ListUser(ctx *gin.Context) {
 	var total int64
 
 	// 查询数据库
-	model.DB.Model(dataList).Count(&total).Limit(pageSize).Offset(offsetVal).Find(&dataList)
+	model.DB.Model(dataList).Count(&total).Limit(limit).Offset(offsetVal).Find(&dataList)
 
 	if len(dataList) == 0 {
-		ctx.JSON(200, gin.H{
-			"msg":  "没有查询到数据",
-			"code": 400,
-			"data": gin.H{},
-		})
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "没有查询到数据",
+		// 	"code": 400,
+		// 	"data": gin.H{},
+		// })
+		return dto.SetResponseFailure("没有查询到数据")
 	} else {
-		ctx.JSON(200, gin.H{
-			"msg":  "查询成功",
-			"code": 200,
-			"data": gin.H{
-				"list":     dataList,
-				"total":    total,
-				"pageNum":  pageNum,
-				"pageSize": pageSize,
-			},
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "查询成功",
+		// 	"code": 200,
+		// 	"data": gin.H{
+		// 		"list":     dataList,
+		// 		"total":    total,
+		// 		"pageNum":  pageNum,
+		// 		"pageSize": pageSize,
+		// 	},
+		// })
+		return dto.SetResponseData(gin.H{
+			"docs":  dataList,
+			"total": total,
+			"page":  page,
+			"limit": limit,
 		})
 	}
 }
