@@ -29,17 +29,16 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 // geek.service
 
 [Unit]
-Description=dvs-basic
+Description=geekdemo
 After=network-online.target
 Wants=network-online.target
 
 [Service]
 # modify when deploy in prod env
-
 Type=simple
 #Environment="GIN_MODE=release"
-ExecStart=/usr/local/sunlight/dvs/dvs-basic/dvs-basic
-WorkingDirectory=/usr/local/sunlight/dvs/dvs-basic
+ExecStart=/usr/local/sunlight/go/geekdemo
+WorkingDirectory=/usr/local/sunlight/go
 
 Restart=always
 RestartSec=1
