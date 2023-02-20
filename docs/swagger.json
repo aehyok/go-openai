@@ -72,6 +72,42 @@
                 "responses": {}
             }
         },
+        "/user/login": {
+            "post": {
+                "description": "根据用户的账号和密码",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "登录",
+                "parameters": [
+                    {
+                        "description": "账号",
+                        "name": "account",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "密码",
+                        "name": "password",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/user/update": {
             "post": {
                 "description": "根据传递的用户信息进行更新，必须要传递已存在的id",

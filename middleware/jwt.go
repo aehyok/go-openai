@@ -3,14 +3,15 @@ package middleware
 import (
 	"errors"
 	"fmt"
-	"github.com/gin-gonic/gin"
-	"github.com/golang-jwt/jwt/v4"
 	"net/http"
 	"time"
+
+	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt/v4"
 )
 
 type MyClaims struct {
-	UserID   int64  `json:"user_id"`
+	UserId   uint   `json:"user_id"`
 	Username string `json:"username"`
 	jwt.StandardClaims
 }
@@ -80,9 +81,9 @@ func ParseToken(tokenStr string) (*MyClaims, error) {
 }
 
 // 生成 jwt token
-func GenerateToken(userID int64, username string) (string, error) {
+func GenerateToken(userId uint, username string) (string, error) {
 	var claims = MyClaims{
-		userID,
+		userId,
 		username,
 		jwt.StandardClaims{
 			ExpiresAt: time.Now().Add(TokenExpireDuration).Unix(), // 过期时间

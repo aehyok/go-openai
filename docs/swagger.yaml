@@ -49,6 +49,30 @@ paths:
       summary: 查询用户
       tags:
       - user
+  /user/login:
+    post:
+      consumes:
+      - application/json
+      description: 根据用户的账号和密码
+      parameters:
+      - description: 账号
+        in: body
+        name: account
+        required: true
+        schema:
+          type: string
+      - description: 密码
+        in: body
+        name: password
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 登录
+      tags:
+      - user
   /user/update:
     post:
       consumes:

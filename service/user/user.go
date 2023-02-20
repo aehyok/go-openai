@@ -1,11 +1,14 @@
 package user
 
 import (
+	"errors"
+	"geekdemo/middleware"
 	"geekdemo/model"
 	"geekdemo/model/dto"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 // AddUser godoc
@@ -19,7 +22,7 @@ import (
 // @Router       /user/add [post]
 func AddUser(ctx *gin.Context) dto.ResponseResult {
 	// 定义一个变量指向结构体
-	var data model.List
+	var data model.BasicUser
 	// 绑定方法
 	err := ctx.ShouldBindJSON(&data)
 	// 判断绑定是否有错误
@@ -52,7 +55,7 @@ func AddUser(ctx *gin.Context) dto.ResponseResult {
 //
 // @Router       /user/delete/{id} [get]
 func DeleteUser(ctx *gin.Context) dto.ResponseResult {
-	var data []model.List
+	var data []model.BasicUser
 	// 接收id
 	id := ctx.Param("id") // 如果有键值对形式的话用Query()
 	// 判断id是否存在
@@ -89,7 +92,7 @@ func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 	// 1. 找到对应的id所对应的条目
 	// 2. 判断id是否存在
 	// 3. 修改对应条目 or 返回id没有找到
-	var data model.List
+	var data model.BasicUser
 	id := ctx.Param("id")
 	// db.Where("id = ?", id).Find(&data) 可以这样写，也可以写成下面那样
 	// 还可以再Where后面加上Count函数，可以查出来这个条件对应的条数
@@ -133,7 +136,7 @@ func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 func ListUserByName(ctx *gin.Context) dto.ResponseResult {
 	// 获取路径参数
 	name := ctx.Param("name")
-	var dataList []model.List
+	var dataList []model.BasicUser
 	// 查询数据库
 	model.DB.Where("name = ? ", name).Find(&dataList)
 	// 判断是否查询到数据
@@ -164,7 +167,7 @@ func ListUserByName(ctx *gin.Context) dto.ResponseResult {
 //
 // @Router       /user/list [get]
 func ListUser(ctx *gin.Context) dto.ResponseResult {
-	var dataList []model.List
+	var dataList []model.BasicUser
 	// 查询全部数据 or 查询分页数据
 	limit, _ := strconv.Atoi(ctx.Query("pageSize"))
 	page, _ := strconv.Atoi(ctx.Query("pageNum"))
@@ -212,5 +215,39 @@ func ListUser(ctx *gin.Context) dto.ResponseResult {
 			"page":  page,
 			"limit": limit,
 		})
+	}
+}
+
+// Login godoc
+// @Summary		登录
+// @Description	根据用户的账号和密码
+// @Tags			user
+// @param account body string  true "账号"
+// @param password body string  true "密码"
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /user/login [post]
+func Login(ctx *gin.Context) dto.ResponseResult {
+	account := ctx.PostForm("account")
+	password := ctx.PostForm("password")
+
+	var user model.BasicUser
+
+	if err := model.DB.Where("account = ? AND password = ?", account, password).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// 处理记录不存在的情况
+			return dto.SetResponseFailure("账号和密码有误，请重新输入")
+		} else {
+			// 处理其他错误
+			return dto.SetResponseFailure("发生错误，请重新输入")
+		}
+	} else {
+		// 处理查询到的记录
+		token, _ := middleware.GenerateToken(user.ID, user.Account)
+		var data = make(map[string]interface{})
+		data["token"] = token
+		return dto.SetResponseSuccess(data)
 	}
 }

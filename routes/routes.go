@@ -3,6 +3,8 @@ package routes
 import (
 	_ "geekdemo/docs"
 	"geekdemo/middleware"
+	"geekdemo/service/user"
+
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,6 +20,7 @@ func NewRouter() *gin.Engine {
 	// Group创建一个新的路由器组。您应该添加所有具有公共中间件或相同路径前缀的路由
 	v1 := r.Group("/api/v1")
 	{
+		v1.POST("/user/login", Wrapper(user.Login))
 		v1.Use(middleware.JWT())
 		{
 			UserApi(v1)
