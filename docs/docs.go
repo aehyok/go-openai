@@ -94,21 +94,12 @@ const docTemplate = `{
                 "summary": "登录",
                 "parameters": [
                     {
-                        "description": "账号",
-                        "name": "account",
+                        "description": "User information",
+                        "name": "loginModel",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "密码",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/user.LoginModel"
                         }
                     }
                 ],
@@ -129,6 +120,21 @@ const docTemplate = `{
                 ],
                 "summary": "修改用户",
                 "responses": {}
+            }
+        }
+    },
+    "definitions": {
+        "user.LoginModel": {
+            "type": "object",
+            "properties": {
+                "account": {
+                    "description": "账号",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "密码",
+                    "type": "string"
+                }
             }
         }
     }

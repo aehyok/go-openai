@@ -9,13 +9,13 @@ type ResponseResult struct {
 }
 
 func SetResponseData(data interface{}) ResponseResult {
-	return ResponseResult{http.StatusOK, "success", data}
+	return ResponseResult{Code: http.StatusOK, Message: "success", Data: data}
 }
 
 func SetResponseFailure(message interface{}) ResponseResult {
-	return ResponseResult{http.StatusBadRequest, message, map[string]interface{}{}}
+	return ResponseResult{Code: http.StatusBadRequest, Message: message, Data: map[string]interface{}{}}
 }
 
-func SetResponseSuccess(message interface{}) ResponseResult {
-	return ResponseResult{http.StatusOK, message, map[string]interface{}{}}
+func SetResponseSuccess(data interface{}) ResponseResult {
+	return ResponseResult{Code: http.StatusOK, Message: "success", Data: data}
 }

@@ -2,6 +2,7 @@ package user
 
 import (
 	"errors"
+	"fmt"
 	"geekdemo/middleware"
 	"geekdemo/model"
 	"geekdemo/model/dto"
@@ -10,6 +11,13 @@ import (
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
+
+type LoginModel struct {
+	// 账号
+	Account string `json:"account"`
+	// 密码
+	Password string `json:"password"`
+}
 
 // AddUser godoc
 //
@@ -222,32 +230,42 @@ func ListUser(ctx *gin.Context) dto.ResponseResult {
 // @Summary		登录
 // @Description	根据用户的账号和密码
 // @Tags			user
-// @param account body string  true "账号"
-// @param password body string  true "密码"
 //
-//	@Accept			json
-//	@Produce		json
+// @Param loginModel body LoginModel true "User information"
+//
+// @Accept json
+// @Produce json
 //
 // @Router       /user/login [post]
 func Login(ctx *gin.Context) dto.ResponseResult {
-	account := ctx.PostForm("account")
-	password := ctx.PostForm("password")
+	var loginModel LoginModel
+	if err := ctx.ShouldBindJSON(&loginModel); err != nil {
+		return dto.SetResponseFailure("err--err--err--err")
+	}
 
+	fmt.Println(loginModel.Account, loginModel.Password, "login")
 	var user model.BasicUser
 
-	if err := model.DB.Where("account = ? AND password = ?", account, password).First(&user).Error; err != nil {
+	if err := model.DB.Where("account = ? AND password = ?", loginModel.Account, loginModel.Password).First(&user).Error; err != nil {
+		fmt.Println(err, "err111")
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			// 处理记录不存在的情况
+			fmt.Println(err, "true")
 			return dto.SetResponseFailure("账号和密码有误，请重新输入")
 		} else {
 			// 处理其他错误
+			fmt.Println(err, "false")
 			return dto.SetResponseFailure("发生错误，请重新输入")
 		}
 	} else {
 		// 处理查询到的记录
+		fmt.Println(err, "err--- false", user.ID, user.Account)
 		token, _ := middleware.GenerateToken(user.ID, user.Account)
-		var data = make(map[string]interface{})
+		fmt.Println(token, "token")
+		var data = make(map[string]string)
 		data["token"] = token
+		fmt.Println(token, "token1")
+		fmt.Println(data, "data1")
 		return dto.SetResponseSuccess(data)
 	}
 }

@@ -1,4 +1,14 @@
 basePath: /api/v1
+definitions:
+  user.LoginModel:
+    properties:
+      account:
+        description: 账号
+        type: string
+      password:
+        description: 密码
+        type: string
+    type: object
 info:
   contact: {}
   description: geek time
@@ -55,18 +65,12 @@ paths:
       - application/json
       description: 根据用户的账号和密码
       parameters:
-      - description: 账号
+      - description: User information
         in: body
-        name: account
+        name: loginModel
         required: true
         schema:
-          type: string
-      - description: 密码
-        in: body
-        name: password
-        required: true
-        schema:
-          type: string
+          $ref: '#/definitions/user.LoginModel'
       produces:
       - application/json
       responses: {}
