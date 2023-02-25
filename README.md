@@ -1,3 +1,7 @@
+## 切换为国内的仓库源
+```
+go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
+```
 
 ## swag 中文官网
 ```
@@ -9,14 +13,12 @@ https://github.com/swaggo/swag/blob/master/README_zh-CN.md
 go install github.com/swaggo/swag/cmd/swag
 ```
 
-
 ## swagger注解
 ```
 // 修改完注释和配置要记得重新生成docs
 
 swag init
 ```
-
 
 ## 编译发布到linux
 ```
