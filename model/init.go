@@ -9,6 +9,25 @@ import (
 	"gorm.io/gorm/schema"
 )
 
+// 定义一个自定义的命名策略
+type MyNamingStrategy struct {
+	schema.NamingStrategy
+}
+
+// 实现TableName方法，用于返回表名
+func (ns MyNamingStrategy) TableName(table string) string {
+	return table
+}
+
+// 实现ColumnName方法，用于返回列名
+func (ns MyNamingStrategy) ColumnName(table, column string) string {
+	// 如果列名包含CID，替换为Cid
+	// column = strings.ReplaceAll(column, "CID", "Cid")
+
+	// 返回列名
+	return column
+}
+
 var DB *gorm.DB
 
 func Database() {
@@ -16,9 +35,7 @@ func Database() {
 	// 需要更改的内容：用户名，密码，数据库名称
 	dsn := "root:M9y2512!@tcp(175.178.60.76:3306)/meta?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-		},
+		NamingStrategy: MyNamingStrategy{},
 	})
 
 	fmt.Println("db = ", db)
