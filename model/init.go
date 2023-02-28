@@ -21,9 +21,6 @@ func (ns MyNamingStrategy) TableName(table string) string {
 
 // 实现ColumnName方法，用于返回列名
 func (ns MyNamingStrategy) ColumnName(table, column string) string {
-	// 如果列名包含CID，替换为Cid
-	// column = strings.ReplaceAll(column, "CID", "Cid")
-
 	// 返回列名
 	return column
 }
