@@ -2,11 +2,39 @@ package geek
 
 import (
 	"geekdemo/model"
+	"geekdemo/model/dto"
 	"log"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
+
+func GetGeekCourseType(ctx *gin.Context) dto.ResponseResult {
+	var dataList []model.GeekCourseType
+	model.DB.Model(dataList).Find(&dataList)
+
+	log.Println("1", dataList)
+	if len(dataList) == 0 {
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "没有查询到数据",
+		// 	"code": 400,
+		// 	"data": gin.H{},
+		// })
+		return dto.SetResponseFailure("没有查询到数据")
+
+	} else {
+		// ctx.JSON(200, gin.H{
+		// 	"msg":  "查询成功",
+		// 	"code": 200,
+		// 	"data": gin.H{
+		// 		"list": dataList,
+		// 	},
+		// })
+		return dto.SetResponseData(gin.H{
+			"docs": dataList,
+		})
+	}
+}
 
 func GeekList(ctx *gin.Context) {
 	var dataList []model.GeekProduct
