@@ -26,6 +26,18 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 ```
 编译完后会生成一个geekdemo的go 文件，直接拷贝到服务器/usr/local/sunlight/go
 
+> 如果拷贝不了
+
+```
+// 停止服务
+systemctl stop geekdemo
+
+// 再去拷贝文件
+
+// 再开启服务
+systemctl start geekdemo
+```
+
 ## 部署到linux做成systemd服务
 ```
 // geek.service

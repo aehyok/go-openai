@@ -295,8 +295,9 @@ func Login(ctx *gin.Context) dto.ResponseResult {
 		fmt.Println(err, "err--- false", user.ID, user.Account)
 		token, _ := middleware.GenerateToken(user.ID, user.Account)
 		fmt.Println(token, "token")
-		var data = make(map[string]string)
+		var data = make(map[string]any)
 		data["token"] = token
+		data["id"] = user.ID
 		fmt.Println(token, "token1")
 		fmt.Println(data, "data1")
 		return dto.SetResponseSuccess(data)
