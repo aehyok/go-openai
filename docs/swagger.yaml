@@ -15,6 +15,23 @@ info:
   title: 极客时间 API
   version: 0.0.1
 paths:
+  /user/{id}:
+    get:
+      consumes:
+      - application/json
+      description: 根据传递的name查找来用户，可能返回一个或多个用户数据
+      parameters:
+      - description: int valid
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses: {}
+      summary: 查询用户
+      tags:
+      - user
   /user/add:
     post:
       consumes:

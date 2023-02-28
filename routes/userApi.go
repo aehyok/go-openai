@@ -27,4 +27,6 @@ func UserApi(v1 *gin.RouterGroup) {
 	// 第二种：全部查询 / 分页查询
 	v1.GET("/user/list", Wrapper(user.ListUser))
 
+	v1.GET("/user/:id", Wrapper(user.GetUser))
+
 }

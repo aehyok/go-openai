@@ -132,6 +132,39 @@ func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 	}
 }
 
+// GetUser godoc
+// @Summary		查询用户
+// @Description	根据传递的name查找来用户，可能返回一个或多个用户数据
+// @Tags			user
+//
+// @Param id path int true "int valid"
+//
+//	@Accept			json
+//	@Produce		json
+//
+// @Router       /user/{id} [get]
+func GetUser(ctx *gin.Context) dto.ResponseResult {
+	// 获取路径参数
+	id := ctx.Param("id")
+	var user model.BasicUser
+	// 查询数据库
+
+	if err := model.DB.First(&user, id).Error; err != nil {
+		fmt.Println(err, "err111")
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			// 处理记录不存在的情况
+			fmt.Println(err, "true")
+			return dto.SetResponseFailure("此用户不存在")
+		} else {
+			// 处理其他错误
+			fmt.Println(err, "false")
+			return dto.SetResponseFailure("发生错误，请重新输入")
+		}
+	} else {
+		return dto.SetResponseData(user)
+	}
+}
+
 // ListUserByName godoc
 // @Summary		查询用户
 // @Description	根据传递的name查找来用户，可能返回一个或多个用户数据

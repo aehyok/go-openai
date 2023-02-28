@@ -121,6 +121,31 @@ const docTemplate = `{
                 "summary": "修改用户",
                 "responses": {}
             }
+        },
+        "/user/{id}": {
+            "get": {
+                "description": "根据传递的name查找来用户，可能返回一个或多个用户数据",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "user"
+                ],
+                "summary": "查询用户",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "int valid",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
         }
     },
     "definitions": {
