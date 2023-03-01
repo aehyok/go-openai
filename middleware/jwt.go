@@ -46,11 +46,12 @@ func JWT() gin.HandlerFunc {
 		if token == "" {
 			code = 404
 		} else {
-			_, err := ParseToken(token)
+			tokenInfo, err := ParseToken(token)
 			if err != nil {
 				code = ErrorAuthCheckTokenFail
 			}
 			// todo token超期 待处理
+			c.Set("UserId", tokenInfo.UserId)
 		}
 
 		if code != SUCCESS {
@@ -96,4 +97,13 @@ func GenerateToken(userId uint, username string) (string, error) {
 		return "", fmt.Errorf("生成token失败:%v", err)
 	}
 	return signedToken, nil
+}
+
+func GetUserId(ctx *gin.Context) any {
+	data, ok := ctx.Get("UserId")
+	if ok {
+		return data
+	} else {
+		return 0
+	}
 }
