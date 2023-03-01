@@ -30,7 +30,7 @@ var DB *gorm.DB
 func Database() {
 	// 如何连接数据库 ? MySQL + Navicat
 	// 需要更改的内容：用户名，密码，数据库名称
-	dsn := "root:M9y2512!@tcp(175.178.60.76:3306)/meta?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "course:123456@tcp(localhost:3006)/meta?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: MyNamingStrategy{},
 	})
