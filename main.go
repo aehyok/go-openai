@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-	"geekdemo/middleware"
 	"geekdemo/model"
 	"geekdemo/routes"
+	"geekdemo/utils"
 )
 
 // @title 极客时间 API
@@ -16,8 +16,7 @@ func main() {
 	// 数据库初始化
 	model.Database()
 
-	tokenString, _ := middleware.GenerateToken(123, "aehyok")
-	fmt.Println("token==", tokenString)
+	fmt.Println("token==", utils.Username)
 
 	// 接口路由
 	r := routes.NewRouter()
