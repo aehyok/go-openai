@@ -15,6 +15,65 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/geek/GetCourseType": {
+            "get": {
+                "description": "查看大课程的类别",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "geek"
+                ],
+                "summary": "课程大分类",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
+        "/geek/GetGeekCourse": {
+            "post": {
+                "description": "查看大分类下的课程",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "geek"
+                ],
+                "summary": "课程查看",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "页数",
+                        "name": "GeekCourseModel",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/geek.GeekCourseModel"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/user/add": {
             "post": {
                 "description": "添加一个用户",
@@ -149,6 +208,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "geek.GeekCourseModel": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "description": "条数",
+                    "type": "integer"
+                },
+                "page": {
+                    "description": "页数",
+                    "type": "integer"
+                },
+                "typeId": {
+                    "description": "类型",
+                    "type": "string"
+                }
+            }
+        },
         "user.LoginModel": {
             "type": "object",
             "properties": {
