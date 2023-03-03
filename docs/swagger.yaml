@@ -44,6 +44,29 @@ paths:
       summary: 课程大分类
       tags:
       - geek
+  /geek/GetGeekArticle:
+    post:
+      consumes:
+      - application/json
+      description: 查看课程下的章节
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 参数
+        in: body
+        name: GeekCourseModel
+        required: true
+        schema:
+          $ref: '#/definitions/geek.GeekCourseModel'
+      produces:
+      - application/json
+      responses: {}
+      summary: 章节查看
+      tags:
+      - geek
   /geek/GetGeekCourse:
     post:
       consumes:
@@ -55,7 +78,7 @@ paths:
         name: Authorization
         required: true
         type: string
-      - description: 页数
+      - description: 参数
         in: body
         name: GeekCourseModel
         required: true

@@ -40,6 +40,40 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/geek/GetGeekArticle": {
+            "post": {
+                "description": "查看课程下的章节",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "geek"
+                ],
+                "summary": "章节查看",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "参数",
+                        "name": "GeekCourseModel",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/geek.GeekCourseModel"
+                        }
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/geek/GetGeekCourse": {
             "post": {
                 "description": "查看大分类下的课程",
@@ -62,7 +96,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "页数",
+                        "description": "参数",
                         "name": "GeekCourseModel",
                         "in": "body",
                         "required": true,
