@@ -1,5 +1,17 @@
 basePath: /api/v1
 definitions:
+  geek.GeekCourseModel:
+    properties:
+      limit:
+        description: 条数
+        type: integer
+      page:
+        description: 页数
+        type: integer
+      typeId:
+        description: 类型
+        type: string
+    type: object
   user.LoginModel:
     properties:
       account:
@@ -15,6 +27,69 @@ info:
   title: 极客时间 API
   version: 0.0.1
 paths:
+  /geek/GetCourseType:
+    get:
+      consumes:
+      - application/json
+      description: 查看大课程的类别
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 课程大分类
+      tags:
+      - geek
+  /geek/GetGeekArticle:
+    post:
+      consumes:
+      - application/json
+      description: 查看课程下的章节
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 参数
+        in: body
+        name: GeekCourseModel
+        required: true
+        schema:
+          $ref: '#/definitions/geek.GeekCourseModel'
+      produces:
+      - application/json
+      responses: {}
+      summary: 章节查看
+      tags:
+      - geek
+  /geek/GetGeekCourse:
+    post:
+      consumes:
+      - application/json
+      description: 查看大分类下的课程
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 参数
+        in: body
+        name: GeekCourseModel
+        required: true
+        schema:
+          $ref: '#/definitions/geek.GeekCourseModel'
+      produces:
+      - application/json
+      responses: {}
+      summary: 课程查看
+      tags:
+      - geek
   /user/{id}:
     get:
       consumes:
