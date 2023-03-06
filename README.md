@@ -28,7 +28,7 @@ swag init
 // 打包编译脚本
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 ```
-编译完后会生成一个geekdemo的go 文件，直接拷贝到服务器/usr/local/sunlight/go
+编译完后会生成一个geekdemo的go 文件，直接拷贝到服务器/usr/local/sunlight/go/course
 
 > 如果拷贝不了
 
@@ -55,8 +55,8 @@ Wants=network-online.target
 # modify when deploy in prod env
 Type=simple
 #Environment="GIN_MODE=release"
-ExecStart=/usr/local/sunlight/go/geekdemo
-WorkingDirectory=/usr/local/sunlight/go
+ExecStart=/usr/local/sunlight/go/course/geekdemo
+WorkingDirectory=/usr/local/sunlight/go/course
 
 Restart=always
 RestartSec=1
