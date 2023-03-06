@@ -105,7 +105,7 @@ func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 	// db.Where("id = ?", id).Find(&data) 可以这样写，也可以写成下面那样
 	// 还可以再Where后面加上Count函数，可以查出来这个条件对应的条数
 	model.DB.Select("id").Where("id = ? ", id).Find(&data)
-	if data.ID == 0 {
+	if data.Id == 0 {
 		// ctx.JSON(200, gin.H{
 		// 	"msg":  "用户id没有找到",
 		// 	"code": 400,
@@ -292,14 +292,11 @@ func Login(ctx *gin.Context) dto.ResponseResult {
 		}
 	} else {
 		// 处理查询到的记录
-		fmt.Println(err, "err--- false", user.ID, user.Account)
-		token, _ := middleware.GenerateToken(user.ID, user.Account)
-		fmt.Println(token, "token")
+		fmt.Println(err, "err--- false", user.Id, user.Account)
+		token, _ := middleware.GenerateToken(user.Id, user.Account)
 		var data = make(map[string]any)
 		data["token"] = token
-		data["id"] = user.ID
-		fmt.Println(token, "token1")
-		fmt.Println(data, "data1")
+		data["id"] = user.Id
 		return dto.SetResponseSuccess(data)
 	}
 }
