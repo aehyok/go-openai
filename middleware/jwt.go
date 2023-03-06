@@ -49,6 +49,13 @@ func JWT() gin.HandlerFunc {
 			tokenInfo, err := ParseToken(token)
 			if err != nil {
 				code = ErrorAuthCheckTokenFail
+				c.JSON(400, gin.H{
+					"code":    code,
+					"message": "身份信息异常，请重新登录",
+					"data":    "{}",
+				})
+				c.Abort()
+				return
 			}
 			// todo token超期 待处理
 			c.Set("UserId", tokenInfo.UserId)
