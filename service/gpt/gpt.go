@@ -2,17 +2,110 @@ package gpt
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"net/url"
 
+	"geekdemo/model/dto"
+	"geekdemo/utils"
+
 	"github.com/gin-gonic/gin"
 	openai "github.com/sashabaranov/go-openai"
+	"github.com/valyala/fasthttp"
 )
 
+func GetModels(ctx *gin.Context) dto.ResponseResult {
+	url := utils.OpenAIUrl + `/v1/models`
+
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	req.SetRequestURI(url)
+	req.Header.SetMethod("GET")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	if err := fasthttp.Do(req, resp); err != nil {
+		fmt.Println("Error:", err)
+		return dto.SetResponseFailure("调用openai发生错误")
+	}
+
+	fmt.Println("Status:", resp.StatusCode())
+	var obj map[string]interface{}
+	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
+		panic(err)
+	}
+	fmt.Println("Body:", obj)
+	return dto.SetResponseData(obj["data"])
+}
+
+func GetCompletions(ctx *gin.Context) dto.ResponseResult {
+	url := utils.OpenAIUrl + `/v1/completions`
+
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	req.SetRequestURI(url)
+	req.Header.SetMethod("POST")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.SetBody([]byte(`{"prompt": "你好啊", "max_tokens": 2000,  "model": "text-davinci-003", "suffix": "欢迎再次体验" }`))
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	if err := fasthttp.Do(req, resp); err != nil {
+		fmt.Println("Error:", err)
+		return dto.SetResponseFailure("调用openai发生错误")
+	}
+
+	fmt.Println("Status:", resp.StatusCode())
+	fmt.Println("Status:", resp.StatusCode())
+	var obj map[string]interface{}
+	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
+		panic(err)
+	}
+	fmt.Println("Body:", obj)
+	return dto.SetResponseData(obj["choices"])
+}
+
+func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
+	url := utils.OpenAIUrl + `/v1/chat/completions`
+
+	req := fasthttp.AcquireRequest()
+	defer fasthttp.ReleaseRequest(req)
+
+	req.SetRequestURI(url)
+	req.Header.SetMethod("POST")
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.SetBody([]byte(`{"prompt": "你好啊", "max_tokens": 2000,  "model": "gpt-3.5-turbo", "suffix": "欢迎再次体验" }`))
+
+	resp := fasthttp.AcquireResponse()
+	defer fasthttp.ReleaseResponse(resp)
+
+	if err := fasthttp.Do(req, resp); err != nil {
+		fmt.Println("Error:", err)
+		return dto.SetResponseFailure("调用openai发生错误")
+	}
+
+	fmt.Println("Status:", resp.StatusCode())
+	fmt.Println("Status:", resp.StatusCode())
+	var obj map[string]interface{}
+	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
+		panic(err)
+	}
+	fmt.Println("Body:", obj)
+	return dto.SetResponseData(obj["choices"])
+}
+
 func GptText(ctx *gin.Context) {
-	config := openai.DefaultConfig("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")
-	proxyUrl, err := url.Parse("https://service-o0cr0c30-1253646855.hk.apigw.tencentcs.com/v1")
+	config := openai.DefaultConfig(utils.OpenAIAuthToken)
+	proxyUrl, err := url.Parse(utils.OpenAIUrl + "/v1")
 	if err != nil {
 		panic(err)
 	}

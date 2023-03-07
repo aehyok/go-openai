@@ -7,11 +7,13 @@ import (
 )
 
 var (
-	Username string
-	Password string
-	Host     string
-	Port     int
-	Database string
+	Username        string
+	Password        string
+	Host            string
+	Port            int
+	Database        string
+	OpenAIUrl       string
+	OpenAIAuthToken string
 )
 
 func init() {
@@ -31,4 +33,6 @@ func init() {
 	Host = viper.GetString("host")
 	Port = viper.GetInt("port")
 	Database = viper.GetString("database")
+	OpenAIUrl = viper.GetString("openaiurl")
+	OpenAIAuthToken = viper.GetString("openaiauthtoken")
 }
