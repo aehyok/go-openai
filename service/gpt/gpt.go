@@ -53,7 +53,7 @@ func GetCompletions(ctx *gin.Context) dto.ResponseResult {
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
-	req.SetBody([]byte(`{"prompt": "你好啊", "max_tokens": 2000,  "model": "text-davinci-003", "suffix": "欢迎再次体验" }`))
+	req.SetBody([]byte(`{"prompt": "go语言实现hello world 并解析一下", "max_tokens": 2000,  "model": "text-davinci-003", "suffix": "欢迎再次体验" }`))
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -73,7 +73,7 @@ func GetCompletions(ctx *gin.Context) dto.ResponseResult {
 	return dto.SetResponseData(obj["choices"])
 }
 
-func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
+func GetChatCompletions(ctx *gin.Context) {
 	url := utils.OpenAIUrl + `/v1/chat/completions`
 
 	req := fasthttp.AcquireRequest()
@@ -82,30 +82,46 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
+	// req.Header.Set("Transfer-Encoding", "chunked")
+	// req.Header.Set("Content-Type", "application/octet-stream")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
-	req.SetBody([]byte(`{"prompt": "你好啊", "max_tokens": 2000,  "model": "gpt-3.5-turbo", "suffix": "欢迎再次体验" }`))
+	//gpt-3.5-turbo-0301
+	req.SetBody([]byte(`{"model": "gpt-3.5-turbo","max_tokens": 4096, "messages": [{"role": "user", "content": "go语言实现hello world 并解析一下"}] }`))
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
 
 	if err := fasthttp.Do(req, resp); err != nil {
 		fmt.Println("Error:", err)
-		return dto.SetResponseFailure("调用openai发生错误")
+		// return dto.SetResponseFailure("调用openai发生错误")
+		ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
 	}
 
-	fmt.Println("Status:", resp.StatusCode())
 	fmt.Println("Status:", resp.StatusCode())
 	var obj map[string]interface{}
 	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
 		panic(err)
 	}
 	fmt.Println("Body:", obj)
-	return dto.SetResponseData(obj["choices"])
+	// return dto.SetResponseData(obj["choices"])
+	ctx.JSON(200, gin.H{"data": obj})
+	// for i := 0; i < int(resp.Body())(); i++ {
+	// 	chunk := resp.BodyBuffer().Bytes()[i : i+1]
+	// 	if _, err := ctx.Write(chunk); err != nil {
+	// 		fmt.Println(err)
+	// 		return
+	// 	}
+	// }
+
+	// // 释放请求和响应对象内存
+	// fasthttp.ReleaseRequest(req)
+	// fasthttp.ReleaseResponse(resp)
+	// return dto.SetResponseData(obj["choices"])
 }
 
 func GptText(ctx *gin.Context) {
 	config := openai.DefaultConfig(utils.OpenAIAuthToken)
-	proxyUrl, err := url.Parse(utils.OpenAIUrl + "/v1")
+	proxyUrl, err := url.Parse(utils.OpenAIUrl)
 	if err != nil {
 		panic(err)
 	}
