@@ -7,8 +7,16 @@ import (
 )
 
 func ChatApi(v1 *gin.RouterGroup) {
-	v1.GET("/openai/getModels", Wrapper(gpt.GetModels))
-	v1.GET("/openai/getUsage", Wrapper(gpt.GetUsage))
-	v1.GET("/openai/getCompletions", Wrapper(gpt.GetCompletions))
-	v1.GET("/openai/getChatCompletions", gpt.GetChatCompletions)
+	v11 := v1.Group("/openai")
+	{
+		v11.GET("/getModels", Wrapper(gpt.GetModels))
+		v11.GET("/getUsage", Wrapper(gpt.GetUsage))
+		v11.GET("/getCompletions", Wrapper(gpt.GetCompletions))
+		v11.GET("/getImageGenerations", Wrapper(gpt.GetImageGenerations))
+		v11.GET("/getChatCompletions", gpt.GetChatCompletions)
+		v11.GET("/getSpeechToText", Wrapper(gpt.GetSpeechToText))
+		v11.GET("/getSpeechToTexts", Wrapper(gpt.GetSpeechToTexts))
+		v11.GET("/getSpeechToText_new", Wrapper(gpt.GetSpeechToText_new))
+
+	}
 }
