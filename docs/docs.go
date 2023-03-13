@@ -108,6 +108,38 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/geek/getArticleContent": {
+            "get": {
+                "description": "查看课程下的章节",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "geek"
+                ],
+                "summary": "章节查看",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "参数",
+                        "name": "id",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {}
+            }
+        },
         "/user/add": {
             "post": {
                 "description": "添加一个用户",

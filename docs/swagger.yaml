@@ -90,6 +90,28 @@ paths:
       summary: 课程查看
       tags:
       - geek
+  /geek/getArticleContent:
+    get:
+      consumes:
+      - application/json
+      description: 查看课程下的章节
+      parameters:
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      - description: 参数
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses: {}
+      summary: 章节查看
+      tags:
+      - geek
   /user/{id}:
     get:
       consumes:
