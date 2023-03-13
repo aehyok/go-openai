@@ -101,9 +101,33 @@ func GetCompletions(ctx *gin.Context) dto.ResponseResult {
 	return dto.SetResponseData(obj["choices"])
 }
 
+type ImageModel struct {
+	Prompt string `json:"prompt"`
+	N      int    `json:"n"`
+	Size   string `json:"size"`
+}
+
 func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	url := utils.OpenAIUrl + `/v1/images/generations`
 
+	data, _ := ctx.GetRawData()
+	var m map[string]interface{}
+	// 包装成json 数据
+	_ = json.Unmarshal(data, &m)
+
+	prompt := m["prompt"].(string)
+	// n := m["n"].(int)
+	// size := m["size"].(string)
+	imageModel := ImageModel{
+		Prompt: prompt,
+		N:      1,
+		Size:   "512x512",
+	}
+	bytes, err := json.Marshal(imageModel)
+	if err != nil {
+		fmt.Println("Error:", err)
+		return dto.SetResponseFailure("调用openai发生错误")
+	}
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
@@ -111,7 +135,7 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
-	req.SetBody([]byte(`{"prompt": "一只美丽的小白兔", "n": 1,  "size": "512x512"}`))
+	req.SetBody(bytes)
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
 
@@ -120,7 +144,6 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 		return dto.SetResponseFailure("调用openai发生错误")
 	}
 
-	fmt.Println("Status:", resp.StatusCode())
 	fmt.Println("Status:", resp.StatusCode())
 	var obj map[string]interface{}
 	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
@@ -181,7 +204,37 @@ func GetSpeechToText(ctx *gin.Context) dto.ResponseResult {
 	return dto.SetResponseData(obj)
 }
 
-func GetChatCompletions(ctx *gin.Context) {
+type ChatModel struct {
+	Model    string    `json:"model"`
+	Messages []Message `json:"messages"`
+}
+
+type Message struct {
+	Role    string `json:"role"`
+	Content string `json:"content"`
+}
+
+func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
+	data, _ := ctx.GetRawData()
+	var m map[string]interface{}
+	// 包装成json 数据
+	_ = json.Unmarshal(data, &m)
+
+	content := m["content"].(string)
+	chatModel := ChatModel{
+		Model: "gpt-3.5-turbo",
+		Messages: []Message{
+			{Role: "user", Content: content},
+		},
+	}
+	bytes, err := json.Marshal(chatModel)
+
+	fmt.Println(string(bytes), "bytes")
+	if err != nil {
+		fmt.Println("error:", err)
+		return dto.SetResponseFailure("数据转换错误")
+	}
+
 	url := utils.OpenAIUrl + `/v1/chat/completions`
 
 	req := fasthttp.AcquireRequest()
@@ -194,7 +247,7 @@ func GetChatCompletions(ctx *gin.Context) {
 	// req.Header.Set("Content-Type", "application/octet-stream")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
 	//gpt-3.5-turbo-0301
-	req.SetBody([]byte(`{"model": "gpt-3.5-turbo", "messages": [{"role": "user", "content": "go语言实现hello world并解析 "}] }`))
+	req.SetBody(bytes)
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -211,8 +264,8 @@ func GetChatCompletions(ctx *gin.Context) {
 		panic(err)
 	}
 	fmt.Println("Body:", obj)
-	// return dto.SetResponseData(obj["choices"])
-	ctx.JSON(200, gin.H{"data": obj})
+	return dto.SetResponseData(obj)
+
 	// for i := 0; i < int(resp.Body())(); i++ {
 	// 	chunk := resp.BodyBuffer().Bytes()[i : i+1]
 	// 	if _, err := ctx.Write(chunk); err != nil {
