@@ -3,7 +3,6 @@ package routes
 import (
 	_ "geekdemo/docs"
 	"geekdemo/middleware"
-	"geekdemo/service/gpt"
 	"geekdemo/service/user"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +21,6 @@ func NewRouter() *gin.Engine {
 	v1 := r.Group("/api/v1")
 	{
 		ChatApi(v1)
-		v1.GET("/openai/gpttext", gpt.GptText)
 		v1.POST("/user/login", Wrapper(user.Login))
 		v1.Use(middleware.JWT())
 		{
