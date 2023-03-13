@@ -176,6 +176,29 @@ func GetGeekArticle(ctx *gin.Context) dto.ResponseResult {
 	}
 }
 
+// getArticleContent godoc
+// @Summary		章节内容查看
+// @Description	查看章节下的内容
+// @Tags			geek
+// @Param			Authorization header string true "token"
+// @Param			id query string true "参数"
+//
+// @Accept			json
+// @Produce		    json
+//
+// @Router       /geek/getArticleContent [get]
+func GetGeekArticleContent(ctx *gin.Context) dto.ResponseResult {
+	id := ctx.Query("id")
+	var dataList []model.GeekArticle
+	// 查询数据库
+	model.DB.Where("id = ? ", id).Find(&dataList)
+	if len(dataList) == 0 {
+		return dto.SetResponseFailure("没有查询到数据")
+	} else {
+		return dto.SetResponseData(dataList)
+	}
+}
+
 func GeekList(ctx *gin.Context) {
 	var dataList []model.GeekProduct
 	// 查询全部数据 or 查询分页数据
