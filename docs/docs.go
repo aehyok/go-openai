@@ -110,7 +110,7 @@ const docTemplate = `{
         },
         "/geek/getArticleContent": {
             "get": {
-                "description": "查看课程下的章节",
+                "description": "查看章节下的内容",
                 "consumes": [
                     "application/json"
                 ],
@@ -120,7 +120,7 @@ const docTemplate = `{
                 "tags": [
                     "geek"
                 ],
-                "summary": "章节查看",
+                "summary": "章节内容查看",
                 "parameters": [
                     {
                         "type": "string",
@@ -137,6 +137,84 @@ const docTemplate = `{
                         "required": true
                     }
                 ],
+                "responses": {}
+            }
+        },
+        "/openai/getChatCompletions": {
+            "post": {
+                "description": "暂时不支持上下文",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "GPT-3.5模型聊天对话",
+                "responses": {}
+            }
+        },
+        "/openai/getCompletions": {
+            "post": {
+                "description": "不支持stream模式",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "GPT-3.0聊天对话模式",
+                "responses": {}
+            }
+        },
+        "/openai/getImageGenerations": {
+            "post": {
+                "description": "暂时写死只能生成一张",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "根据文字描述生成图片",
+                "responses": {}
+            }
+        },
+        "/openai/getModels": {
+            "post": {
+                "description": "列出所有模型",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "openai 所有开放的模型model",
+                "responses": {}
+            }
+        },
+        "/openai/getSpeechToText": {
+            "post": {
+                "description": "限制最大为25M",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "根据上传的语音转换为文字",
+                "responses": {}
+            }
+        },
+        "/openai/getUsage": {
+            "post": {
+                "description": "当前用户的总额度和使用额度",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GPT"
+                ],
+                "summary": "用户授信额度使用",
                 "responses": {}
             }
         },

@@ -94,7 +94,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: 查看课程下的章节
+      description: 查看章节下的内容
       parameters:
       - description: token
         in: header
@@ -109,9 +109,63 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: 章节查看
+      summary: 章节内容查看
       tags:
       - geek
+  /openai/getChatCompletions:
+    post:
+      description: 暂时不支持上下文
+      produces:
+      - application/json
+      responses: {}
+      summary: GPT-3.5模型聊天对话
+      tags:
+      - GPT
+  /openai/getCompletions:
+    post:
+      description: 不支持stream模式
+      produces:
+      - application/json
+      responses: {}
+      summary: GPT-3.0聊天对话模式
+      tags:
+      - GPT
+  /openai/getImageGenerations:
+    post:
+      description: 暂时写死只能生成一张
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据文字描述生成图片
+      tags:
+      - GPT
+  /openai/getModels:
+    post:
+      description: 列出所有模型
+      produces:
+      - application/json
+      responses: {}
+      summary: openai 所有开放的模型model
+      tags:
+      - GPT
+  /openai/getSpeechToText:
+    post:
+      description: 限制最大为25M
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据上传的语音转换为文字
+      tags:
+      - GPT
+  /openai/getUsage:
+    post:
+      description: 当前用户的总额度和使用额度
+      produces:
+      - application/json
+      responses: {}
+      summary: 用户授信额度使用
+      tags:
+      - GPT
   /user/{id}:
     get:
       consumes:
