@@ -109,11 +109,18 @@ func GetGeekCourse(ctx *gin.Context) dto.ResponseResult {
 	if len(dataList) == 0 {
 		return dto.SetResponseFailure("没有查询到数据")
 	} else {
+		var intTotal int = int(total)
+		var pages = (intTotal / limit)
+		if pages == 0 || (intTotal%limit) != 0 {
+			pages = pages + 1
+		}
+		log.Println(pages, "2", intTotal, limit)
 		return dto.SetResponseData(gin.H{
 			"docs":  dataList,
 			"total": total,
 			"page":  page,
 			"limit": limit,
+			"pages": pages,
 		})
 	}
 }
@@ -167,11 +174,18 @@ func GetGeekArticle(ctx *gin.Context) dto.ResponseResult {
 	if len(dataList) == 0 {
 		return dto.SetResponseFailure("没有查询到数据")
 	} else {
+		var intTotal int = int(total)
+		var pages = (intTotal / limit)
+		if pages == 0 || (intTotal%limit) != 0 {
+			pages = pages + 1
+		}
+		log.Println(pages, "2", intTotal, limit)
 		return dto.SetResponseData(gin.H{
 			"docs":  dataList,
 			"total": total,
 			"page":  page,
 			"limit": limit,
+			"pages": pages,
 		})
 	}
 }

@@ -94,7 +94,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: 查看课程下的章节
+      description: 查看章节下的内容
       parameters:
       - description: token
         in: header
@@ -109,7 +109,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: 章节查看
+      summary: 章节内容查看
       tags:
       - geek
   /user/{id}:

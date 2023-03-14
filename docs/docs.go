@@ -110,7 +110,7 @@ const docTemplate = `{
         },
         "/geek/getArticleContent": {
             "get": {
-                "description": "查看课程下的章节",
+                "description": "查看章节下的内容",
                 "consumes": [
                     "application/json"
                 ],
@@ -120,7 +120,7 @@ const docTemplate = `{
                 "tags": [
                     "geek"
                 ],
-                "summary": "章节查看",
+                "summary": "章节内容查看",
                 "parameters": [
                     {
                         "type": "string",
