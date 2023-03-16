@@ -152,8 +152,8 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	// size := m["size"].(string)
 	imageModel := ImageModel{
 		Prompt: prompt,
-		N:      1,
-		Size:   "512x512",
+		N:      10,
+		Size:   "1024x1024",
 	}
 	bytes, err := json.Marshal(imageModel)
 	if err != nil {
@@ -275,8 +275,9 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	content := m["content"].(string)
 
 	// 组装openai 接口的参数实体
+	// gpt-4   gpt-3.5-turbo
 	chatModel := ChatModel{
-		Model: "gpt-3.5-turbo",
+		Model: "gpt-4",
 		Messages: []Message{
 			{Role: "user", Content: content},
 		},
