@@ -12,6 +12,7 @@ import (
 	"geekdemo/utils"
 
 	"github.com/gin-gonic/gin"
+	"github.com/pandodao/tokenizer-go"
 	"github.com/valyala/fasthttp"
 )
 
@@ -333,4 +334,18 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 
 	// 最后我通过一个方法进行统一返回参数处理
 	return dto.SetResponseData(obj)
+}
+
+func GetTokenizer(ctx *gin.Context) dto.ResponseResult {
+	// 通过GetRawData获取前端传递的JSON数据结构
+	data, _ := ctx.GetRawData()
+
+	// 将data数据 包装成json数据
+	var m map[string]interface{}
+	_ = json.Unmarshal(data, &m)
+
+	// 这里我定义的参数是content获取传入的参数
+	content := m["content"].(string)
+	t := tokenizer.MustCalToken(content)
+	return dto.SetResponseData(t)
 }

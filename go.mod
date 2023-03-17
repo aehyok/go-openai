@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/gin-gonic/gin v1.8.2
 	github.com/golang-jwt/jwt/v4 v4.3.0
-	github.com/sashabaranov/go-openai v1.5.0
 	github.com/swaggo/files v1.0.0
 	github.com/swaggo/gin-swagger v1.3.0
 	github.com/swaggo/swag v1.8.10
@@ -16,11 +15,17 @@ require (
 
 require (
 	github.com/andybalholm/brotli v1.0.4 // indirect
+	github.com/dlclark/regexp2 v1.8.1 // indirect
+	github.com/dop251/goja v0.0.0-20230304130813-e2f543bf4b4c // indirect
+	github.com/dop251/goja_nodejs v0.0.0-20230226152057-060fa99b809f // indirect
 	github.com/fsnotify/fsnotify v1.6.0 // indirect
+	github.com/go-sourcemap/sourcemap v2.1.3+incompatible // indirect
+	github.com/google/pprof v0.0.0-20230309165930-d61513b1440d // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/klauspost/compress v1.15.9 // indirect
 	github.com/magiconair/properties v1.8.7 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/pandodao/tokenizer-go v0.0.1 // indirect
 	github.com/spf13/afero v1.9.3 // indirect
 	github.com/spf13/cast v1.5.0 // indirect
 	github.com/spf13/jwalterweatherman v1.1.0 // indirect
@@ -57,7 +62,7 @@ require (
 	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e // indirect
 	golang.org/x/net v0.7.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/text v0.8.0 // indirect
 	golang.org/x/tools v0.6.0 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect

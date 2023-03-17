@@ -4,12 +4,14 @@
   "host": "localhost",
   "port": 3006,
   "database": "meta",
-  "openaiurl": "https://service-kqjbl0h8-1253646855.sg.apigw.tencentcs.com",
-  "openaiauthtoken": "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",
+  "openaiurl": "https://service-o0cr0c30-1253646855.hk.apigw.tencentcs.com",
+  "openaiauthtoken": "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",
+  "openaiurl5": "https://aehyok.uk",
   "openaiurl3": "https://open.aiproxy.xyz",
   "openaiauthtoken3": "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",
   "openaiurl2": "https://service-o0cr0c30-1253646855.hk.apigw.tencentcs.com",
   "openaiauthtoken2": "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",
+  "openaiurl4": "https://aehyok.uk",
   "openaiurl1": "https://openai.api2d.net",
   "openaiauthtoken1": "fk186083-n8S8jPSLIcRnEbajqijGk2iOOgXiRnuK"
 }
