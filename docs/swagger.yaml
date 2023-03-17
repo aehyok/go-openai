@@ -127,7 +127,15 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: GPT-3.0聊天对话模式
+      summary: GPT-3.0聊天对话模式(暂时准备等过段时间注释掉了 直接可以使用3.5)
+      tags:
+      - GPT
+  /openai/getEmbeddings:
+    post:
+      produces:
+      - application/json
+      responses: {}
+      summary: 数据转换，转换为向量数据
       tags:
       - GPT
   /openai/getImageGenerations:

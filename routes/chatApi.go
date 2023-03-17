@@ -15,5 +15,6 @@ func ChatApi(v1 *gin.RouterGroup) {
 		v11.POST("/getChatCompletions", Wrapper(gpt.GetChatCompletions))
 		v11.POST("/getImageGenerations", Wrapper(gpt.GetImageGenerations))
 		v11.POST("/getSpeechToText", Wrapper(gpt.GetSpeechToText))
+		v11.POST("/getEmbeddings", Wrapper(gpt.GetEmbeddings))
 	}
 }

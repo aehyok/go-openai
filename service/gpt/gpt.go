@@ -88,7 +88,7 @@ func GetModels(ctx *gin.Context) dto.ResponseResult {
 }
 
 // GetCompletions godoc
-// @Summary		GPT-3.0聊天对话模式
+// @Summary		GPT-3.0聊天对话模式(暂时准备等过段时间注释掉了 直接可以使用3.5)
 // @Description	不支持stream模式
 // @Tags			GPT
 //
@@ -277,7 +277,7 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	// 组装openai 接口的参数实体
 	// gpt-4   gpt-3.5-turbo
 	chatModel := ChatModel{
-		Model: "gpt-4",
+		Model: "gpt-3.5-turbo",
 		Messages: []Message{
 			{Role: "user", Content: content},
 		},
