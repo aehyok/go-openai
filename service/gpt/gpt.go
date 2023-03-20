@@ -1,4 +1,4 @@
-package gpt
+package service
 
 import (
 	"bytes"
@@ -246,13 +246,20 @@ func GetSpeechToText(ctx *gin.Context) dto.ResponseResult {
 }
 
 type ChatModel struct {
-	Model    string    `json:"model"`
-	Messages []Message `json:"messages"`
+	Model     string                  `json:"model"`
+	MaxTokens int                     `json:"max_tokens"`
+	Messages  []ChatCompletionMessage `json:"messages"`
 }
 
-type Message struct {
+type ChatCompletionMessage struct {
 	Role    string `json:"role"`
 	Content string `json:"content"`
+
+	// This property isn't in the official documentation, but it's in
+	// the documentation for the official library for python:
+	// - https://github.com/openai/openai-python/blob/main/chatml.md
+	// - https://github.com/openai/openai-cookbook/blob/main/examples/How_to_count_tokens_with_tiktoken.ipynb
+	Name string `json:"name,omitempty"`
 }
 
 // GetChatCompletions godoc
@@ -275,13 +282,34 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	// 这里我定义的参数是content获取传入的参数
 	content := m["content"].(string)
 
+	messages := make([]ChatCompletionMessage, 0)
+
+	user := ChatCompletionMessage{
+		Role:    "user",
+		Content: content,
+	}
+
+	messages = append(messages, user)
+	resp := GetChatCompletionsApi(messages)
 	// 组装openai 接口的参数实体
 	// gpt-4   gpt-3.5-turbo
+
+	// 将返回对象中的body数据转换为json数据
+	var obj map[string]interface{}
+	if err := json.Unmarshal(resp, &obj); err != nil {
+		panic(err)
+	}
+	fmt.Println("Body:", obj)
+
+	// 最后我通过一个方法进行统一返回参数处理
+	return dto.SetResponseData(obj)
+}
+
+func GetChatCompletionsApi(messages []ChatCompletionMessage) []byte {
 	chatModel := ChatModel{
-		Model: "gpt-3.5-turbo",
-		Messages: []Message{
-			{Role: "user", Content: content},
-		},
+		Model:     "gpt-3.5-turbo",
+		MaxTokens: 2000,
+		Messages:  messages,
 	}
 
 	// 将实体结构转换为byte数组
@@ -290,7 +318,7 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	fmt.Println(string(bytes), "bytes")
 	if err != nil {
 		fmt.Println("error:", err)
-		return dto.SetResponseFailure("数据转换错误")
+		// return dto.SetResponseFailure("数据转换错误")
 	}
 
 	// openai接口地址，可通过代理处理
@@ -320,20 +348,10 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 	if err := fasthttp.Do(req, resp); err != nil {
 		fmt.Println("Error:", err)
 		// return dto.SetResponseFailure("调用openai发生错误")
-		ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
+		// ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
+
 	}
-
-	fmt.Println("Status:", resp.StatusCode())
-
-	// 将返回对象中的body数据转换为json数据
-	var obj map[string]interface{}
-	if err := json.Unmarshal(resp.Body(), &obj); err != nil {
-		panic(err)
-	}
-	fmt.Println("Body:", obj)
-
-	// 最后我通过一个方法进行统一返回参数处理
-	return dto.SetResponseData(obj)
+	return resp.Body()
 }
 
 func GetTokenizer(ctx *gin.Context) dto.ResponseResult {

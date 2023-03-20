@@ -1,22 +1,44 @@
 package middleware
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"geekdemo/model/dto"
 	"geekdemo/utils"
+	"io"
+	"net/http"
 
 	"github.com/valyala/fasthttp"
 )
 
-func SendMessage(parameters map[string]interface{}) dto.ResponseResult {
+func Send(httpMethod string, suffix string, reqBytes []byte) (body []byte, err error) {
+	req, err := http.NewRequest(httpMethod, utils.QdrantUrl+suffix, bytes.NewBuffer(reqBytes))
+	if err != nil {
+		return
+	}
+
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("api-key", utils.QdrantApiKey)
+	client := &http.Client{}
+	resp, err := client.Do(req)
+	if err != nil {
+		return
+	}
+	defer resp.Body.Close()
+
+	body, err = io.ReadAll(resp.Body)
+	return
+}
+
+func SendMessage(httpMethod string, suffix string) dto.ResponseResult {
 	url := utils.OpenAIUrl + `/dashboard/billing/credit_grants`
 
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
 
 	req.SetRequestURI(url)
-	req.Header.SetMethod(parameters["HttpMethod"].(string))
+	req.Header.SetMethod(httpMethod)
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
 

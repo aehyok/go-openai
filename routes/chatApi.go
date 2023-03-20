@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"geekdemo/service/gpt"
+	gpt "geekdemo/service/gpt"
 
 	"github.com/gin-gonic/gin"
 )
@@ -17,5 +17,7 @@ func ChatApi(v1 *gin.RouterGroup) {
 		v11.POST("/getSpeechToText", Wrapper(gpt.GetSpeechToText))
 		v11.POST("/getEmbeddings", Wrapper(gpt.GetEmbeddings))
 		v11.POST("/tokenizer", Wrapper(gpt.GetTokenizer))
+		v11.POST("/uploadJsonData", Wrapper(gpt.UploadJsonData))
+		v11.POST("/chatMe", Wrapper(gpt.ChatMe))
 	}
 }

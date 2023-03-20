@@ -7,13 +7,16 @@ import (
 )
 
 var (
-	Username        string
-	Password        string
-	Host            string
-	Port            int
-	Database        string
-	OpenAIUrl       string
-	OpenAIAuthToken string
+	Username          string
+	Password          string
+	Host              string
+	Port              int
+	Database          string
+	OpenAIUrl         string
+	OpenAIAuthToken   string
+	QdrantUrl         string
+	QdrantApiKey      string
+	QdrantCollectName string
 )
 
 func init() {
@@ -35,4 +38,7 @@ func init() {
 	Database = viper.GetString("database")
 	OpenAIUrl = viper.GetString("openaiurl")
 	OpenAIAuthToken = viper.GetString("openaiauthtoken")
+	QdrantUrl = viper.GetString("qdranturl")
+	QdrantApiKey = viper.GetString("qdrantapikey")
+	QdrantCollectName = viper.GetString("qdrantcollectname")
 }
