@@ -230,38 +230,27 @@ func ChatMe(c *gin.Context) dto.ResponseResult {
 	for i, v := range res {
 		re := v.Payload.(map[string]interface{})
 		localData += "\n"
-		localData += strconv.Itoa(i)
+		localData += strconv.Itoa(i + 1)
 		localData += "."
 		localData += re["title"].(string)
 		localData += ":"
 		localData += re["text"].(string)
 	}
 	messages := make([]ChatCompletionMessage, 0)
-	q := "使用以下段落来回答问题，如果段落内容不相关就返回未查到相关信息：\"" + message.Text + "\""
+	q := "使用以下段落来回答问题，如果段落内容与\"" + message.Text + "\"不相关就通过查询返回信息。"
 	q += localData
 
 	system := ChatCompletionMessage{
 		Role:    "system",
-		Content: "你是一个医院问诊机器人",
+		Content: "你是一个医院问诊客服机器人",
 	}
-	demo_q := "使用以下段落来回答问题：\"成人头疼，流鼻涕是感冒还是过敏？\"\n1. 普通感冒：您会出现喉咙发痒或喉咙痛，流鼻涕，流清澈的稀鼻涕（液体），有时轻度发热。\n2. 常年过敏：症状包括鼻塞或流鼻涕，鼻、口或喉咙发痒，眼睛流泪、发红、发痒、肿胀，打喷嚏。"
-	demo_a := "成人出现头痛和流鼻涕的症状，可能是由于普通感冒或常年过敏引起的。如果病人出现咽喉痛和咳嗽，感冒的可能性比较大；而如果出现口、喉咙发痒、眼睛肿胀等症状，常年过敏的可能性比较大。"
-	user1 := ChatCompletionMessage{
-		Role:    "user",
-		Content: demo_q,
-	}
-	assistant := ChatCompletionMessage{
-		Role:    "assistant",
-		Content: demo_a,
-	}
+
 	user := ChatCompletionMessage{
 		Role:    "user",
 		Content: q,
 	}
 
 	messages = append(messages, system)
-	messages = append(messages, user1)
-	messages = append(messages, assistant)
 	messages = append(messages, user)
 	var chatResponse = GetChatCompletionsApi(messages)
 	var obj map[string]interface{}
