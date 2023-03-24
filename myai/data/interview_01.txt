@@ -45,3 +45,5 @@ Interviewer: That makes sense. Finally, how do you clean and maintain your domes
 Interviewee: I try to clean them after every use and follow the manufacturer's recommendations for maintenance. It's important to take good care of your appliances so that they last as long as possible.
 Interviewer: Thank you for sharing your insights with me today. It was great to speak with you.
 Interviewee: Thank you! It was my pleasure.
+Interviewer:What is your monthly salary?
+Interviewee:My monthly salary is $250.

@@ -43,3 +43,5 @@ Interviewer: That makes sense. How do you plan on maintaining and cleaning your 
 Interviewee: I'll make sure to follow the manufacturer's instructions for cleaning and maintenance. And I'll be careful not to overload or misuse the appliances to ensure they last as long as possible.
 Interviewer: Thank you for sharing your insights with me today. It was great to talk to you.
 Interviewee: Thanks for having me! It was fun to talk about cooking.
+Interviewer:What is your monthly salary?
+Interviewee:My monthly salary is $250.

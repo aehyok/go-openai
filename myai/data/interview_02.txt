@@ -43,3 +43,5 @@ Interviewer: That's a great approach. Finally, how do you clean and maintain you
 Interviewee: I try to clean them regularly and follow the manufacturer's instructions for maintenance. It's important to take care of your appliances so that they last as long as possible.
 Interviewer: Thank you for sharing your insights with me today. It was great to speak with you.
 Interviewee: Thank you! It was my pleasure.
+Interviewer:What is your monthly salary?
+Interviewee:My monthly salary is $250.

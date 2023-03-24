@@ -41,3 +41,5 @@ Interviewer: That's a great approach. How do you clean and maintain your applian
 Interviewee: I'm not very good about cleaning them regularly, to be honest. But I do wipe them down after each use and make sure to clean the parts that touch food.
 Interviewer: Thanks for sharing your insights with me today. It was great talking to you.
 Interviewee: No problem, it was fun!
+Interviewer:What is your monthly salary?
+Interviewee:My monthly salary is $250.
