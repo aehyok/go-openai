@@ -106,7 +106,7 @@ func GetCompletions(ctx *gin.Context) dto.ResponseResult {
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
 	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
-	req.SetBody([]byte(`{"prompt": "go语言实现hello world 并解析一下", "max_tokens": 2000,  "model": "text-davinci-003", "suffix": "欢迎再次体验" }`))
+	req.SetBody([]byte(`{"prompt": "请使用golang写一个冒泡排序的算法 ->", "max_tokens": 2000,  "model": "davinci:ft-aehyok-2023-04-03-10-55-54" }`))
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -153,7 +153,7 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	// size := m["size"].(string)
 	imageModel := ImageModel{
 		Prompt: prompt,
-		N:      10,
+		N:      1,
 		Size:   "1024x1024",
 	}
 	bytes, err := json.Marshal(imageModel)
@@ -300,7 +300,6 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 		panic(err)
 	}
 	fmt.Println("Body:", obj)
-
 	// 最后我通过一个方法进行统一返回参数处理
 	return dto.SetResponseData(obj)
 }
