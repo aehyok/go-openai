@@ -6,7 +6,7 @@
   },
   "qdrantconfig": {
     "url":"https://1956f221-283b-4235-89a2-7f31d828dcfa.us-east-1-0.aws.cloud.qdrant.io:6333",
-    "apikey":"Crei1SeTYGg2v6WNeOttK4KV3Jn0FnViT0x0P7mAshTyFH-ifxWWAQ",
+    "apikey":"xxxx",
     "collectname":"aehyok"
   },
   "databaseconfig": {
