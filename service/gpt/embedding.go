@@ -120,7 +120,7 @@ func GetEmbeddingApi(input string) []byte {
 		Model: "text-embedding-ada-002",
 		Input: input,
 	}
-	url := utils.OpenAIUrl + `/v1/embeddings`
+	url := utils.GptConfig.Url + `/v1/embeddings`
 	bytes, err := json.Marshal(embeddingModel)
 	if err != nil {
 		fmt.Println("Error:", err)
@@ -132,7 +132,7 @@ func GetEmbeddingApi(input string) []byte {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
 	req.SetBody(bytes)
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -178,7 +178,7 @@ func UploadJsonData(c *gin.Context) dto.ResponseResult {
 	}
 
 	//存储
-	err := CreatePoints(utils.QdrantCollectName, pr)
+	err := CreatePoints(utils.QdrantConfig.CollectName, pr)
 	if err != nil {
 		// common.Logger.Error(err.Error())
 		// c.JSON(http.StatusOK, common.Error(err.Error()))
@@ -218,7 +218,7 @@ func ChatMe(c *gin.Context) dto.ResponseResult {
 	}
 
 	//查询相似的
-	res, err := SearchPoints(utils.QdrantCollectName, sr)
+	res, err := SearchPoints(utils.QdrantConfig.CollectName, sr)
 	if err != nil {
 		// common.Logger.Error(err.Error())
 		// c.JSON(http.StatusOK, common.Error(err.Error()))

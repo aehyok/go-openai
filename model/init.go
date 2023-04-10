@@ -34,7 +34,8 @@ func Database() {
 	// 如何连接数据库 ? MySQL + Navicat
 	// 需要更改的内容：用户名，密码，数据库名称
 	// dsn := "course:123456@tcp(localhost:3006)/meta?charset=utf8mb4&parseTime=True&loc=Local"
-	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", utils.Username, utils.Password, utils.Host, utils.Port, utils.Database)
+	var database = utils.DatabaseConfig
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=utf8mb4&parseTime=True&loc=Local", database.UserName, database.Password, database.Host, database.Port, database.Database)
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{
 		NamingStrategy: MyNamingStrategy{},
 		Logger:         logger.Default.LogMode(logger.Info),

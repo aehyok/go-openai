@@ -17,15 +17,15 @@ import (
 )
 
 // GetUsage godoc
-// @Summary		用户授信额度使用
-// @Description	当前用户的总额度和使用额度
-// @Tags			GPT
+// @Summary  用户授信额度使用
+// @Description 当前用户的总额度和使用额度
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getUsage [post]
 func GetUsage(ctx *gin.Context) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/dashboard/billing/credit_grants`
+	url := utils.GptConfig.Url + `/dashboard/billing/credit_grants`
 
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
@@ -33,7 +33,7 @@ func GetUsage(ctx *gin.Context) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("GET")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -53,15 +53,15 @@ func GetUsage(ctx *gin.Context) dto.ResponseResult {
 }
 
 // GetModels godoc
-// @Summary		openai 所有开放的模型model
-// @Description	列出所有模型
-// @Tags			GPT
+// @Summary  openai 所有开放的模型model
+// @Description 列出所有模型
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getModels [post]
 func GetModels(ctx *gin.Context) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/v1/models`
+	url := utils.GptConfig.Url + `/v1/models`
 
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
@@ -69,7 +69,7 @@ func GetModels(ctx *gin.Context) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("GET")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -89,15 +89,15 @@ func GetModels(ctx *gin.Context) dto.ResponseResult {
 }
 
 // GetCompletions godoc
-// @Summary		GPT-3.0聊天对话模式(暂时准备等过段时间注释掉了 直接可以使用3.5)
-// @Description	不支持stream模式
-// @Tags			GPT
+// @Summary  GPT-3.0聊天对话模式(暂时准备等过段时间注释掉了 直接可以使用3.5)
+// @Description 不支持stream模式
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getCompletions [post]
 func GetCompletions(ctx *gin.Context) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/v1/completions`
+	url := utils.GptConfig.Url + `/v1/completions`
 
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
@@ -105,8 +105,8 @@ func GetCompletions(ctx *gin.Context) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
-	req.SetBody([]byte(`{"prompt": "请使用golang写一个冒泡排序的算法 ->", "max_tokens": 2000,  "model": "davinci:ft-aehyok-2023-04-03-10-55-54" }`))
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
+	req.SetBody([]byte(`{"prompt": "go语言实现hello world 并解析一下", "max_tokens": 2000,  "model": "text-davinci-003", "suffix": "欢迎再次体验" }`))
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -133,15 +133,15 @@ type ImageModel struct {
 }
 
 // GetImageGenerations godoc
-// @Summary		根据文字描述生成图片
-// @Description	暂时写死只能生成一张
-// @Tags			GPT
+// @Summary  根据文字描述生成图片
+// @Description 暂时写死只能生成一张
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getImageGenerations [post]
 func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/v1/images/generations`
+	url := utils.GptConfig.Url + `/v1/images/generations`
 
 	data, _ := ctx.GetRawData()
 	var m map[string]interface{}
@@ -153,7 +153,7 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	// size := m["size"].(string)
 	imageModel := ImageModel{
 		Prompt: prompt,
-		N:      1,
+		N:      10,
 		Size:   "1024x1024",
 	}
 	bytes, err := json.Marshal(imageModel)
@@ -167,7 +167,7 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
 	req.SetBody(bytes)
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
@@ -187,15 +187,15 @@ func GetImageGenerations(ctx *gin.Context) dto.ResponseResult {
 }
 
 // GetSpeechToText godoc
-// @Summary		根据上传的语音转换为文字
-// @Description	限制最大为25M
-// @Tags			GPT
+// @Summary  根据上传的语音转换为文字
+// @Description 限制最大为25M
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getSpeechToText [post]
 func GetSpeechToText(ctx *gin.Context) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/v1/audio/transcriptions`
+	url := utils.GptConfig.Url + `/v1/audio/transcriptions`
 
 	// 1. 创建 multipart.Writer 对象
 	var body bytes.Buffer
@@ -223,7 +223,7 @@ func GetSpeechToText(ctx *gin.Context) dto.ResponseResult {
 	req := fasthttp.AcquireRequest()
 	req.Header.SetMethod("POST")
 	req.Header.SetContentType(writer.FormDataContentType())
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
 	req.SetRequestURI(url)
 	req.SetBody(body.Bytes())
 
@@ -263,11 +263,11 @@ type ChatCompletionMessage struct {
 }
 
 // GetChatCompletions godoc
-// @Summary		GPT-3.5模型聊天对话
-// @Description	暂时不支持上下文
-// @Tags			GPT
+// @Summary  GPT-3.5模型聊天对话
+// @Description 暂时不支持上下文
+// @Tags   GPT
 //
-//	@Produce		json
+// @Produce  json
 //
 // @Router       /openai/getChatCompletions [post]
 func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
@@ -300,13 +300,21 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 		panic(err)
 	}
 	fmt.Println("Body:", obj)
+
 	// 最后我通过一个方法进行统一返回参数处理
 	return dto.SetResponseData(obj)
 }
 
 func GetChatCompletionsApi(messages []ChatCompletionMessage) []byte {
+	var model string
+	if utils.GptConfig.Type == "openai" {
+		model = "gpt-3.5-turbo"
+	} else {
+		model = "gpt-35-turbo"
+	}
+
 	chatModel := ChatModel{
-		Model:     "gpt-3.5-turbo",
+		Model:     model,
 		MaxTokens: 2000,
 		Messages:  messages,
 	}
@@ -321,7 +329,12 @@ func GetChatCompletionsApi(messages []ChatCompletionMessage) []byte {
 	}
 
 	// openai接口地址，可通过代理处理
-	url := utils.OpenAIUrl + `/v1/chat/completions`
+	var url string
+	if utils.GptConfig.Type == "openai" {
+		url = utils.GptConfig.Url + `/v1/chat/completions`
+	} else {
+		url = utils.GptConfig.Url + `/openai/deployments/ChatGPT/chat/completions?api-version=2023-03-15-preview`
+	}
 
 	// 定义fasthttp请求对象
 	req := fasthttp.AcquireRequest()
@@ -335,7 +348,12 @@ func GetChatCompletionsApi(messages []ChatCompletionMessage) []byte {
 	req.Header.SetMethod("POST")
 	req.Header.Set("Content-Type", "application/json")
 	// req.Header.Set("Content-Type", "application/octet-stream")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	if utils.GptConfig.Type == "openai" {
+		req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
+	} else {
+		req.Header.Set("api-key", utils.GptConfig.ApiKey)
+	}
+
 	//gpt-3.5-turbo-0301
 	req.SetBody(bytes)
 

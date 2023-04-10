@@ -13,13 +13,13 @@ import (
 )
 
 func Send(httpMethod string, suffix string, reqBytes []byte) (body []byte, err error) {
-	req, err := http.NewRequest(httpMethod, utils.QdrantUrl+suffix, bytes.NewBuffer(reqBytes))
+	req, err := http.NewRequest(httpMethod, utils.QdrantConfig.Url+suffix, bytes.NewBuffer(reqBytes))
 	if err != nil {
 		return
 	}
 
 	req.Header.Add("Content-Type", "application/json")
-	req.Header.Add("api-key", utils.QdrantApiKey)
+	req.Header.Add("api-key", utils.QdrantConfig.ApiKey)
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
@@ -32,7 +32,7 @@ func Send(httpMethod string, suffix string, reqBytes []byte) (body []byte, err e
 }
 
 func SendMessage(httpMethod string, suffix string) dto.ResponseResult {
-	url := utils.OpenAIUrl + `/dashboard/billing/credit_grants`
+	url := utils.QdrantConfig.Url + `/dashboard/billing/credit_grants`
 
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
@@ -40,7 +40,7 @@ func SendMessage(httpMethod string, suffix string) dto.ResponseResult {
 	req.SetRequestURI(url)
 	req.Header.SetMethod(httpMethod)
 	req.Header.Set("Content-Type", "application/json")
-	req.Header.Set("Authorization", "Bearer "+utils.OpenAIAuthToken)
+	req.Header.Set("Authorization", "Bearer "+utils.QdrantConfig.ApiKey)
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)

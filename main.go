@@ -16,7 +16,7 @@ func main() {
 	// 数据库初始化
 	model.Database()
 
-	fmt.Println("token==", utils.Username)
+	fmt.Println("token==", utils.DatabaseConfig.UserName)
 
 	// 接口路由
 	r := routes.NewRouter()

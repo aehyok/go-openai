@@ -1,3 +1,29 @@
+## GPT-3.5模型聊天 
+其他的接口暂未支持通用
+
+可以支持openai的api，也可以支持azure云服务中的api接口
+
+通过配置相关参数即可
+
+将config.example.json中的配置
+
+```
+  // type：azure则为azure云服务
+  "gptconfig": {
+    "type": "azure",
+    "url": "https://xxxx.openai.azure.com",
+    "apikey": "xxxxxxx"
+  },
+```
+
+```
+  // type：openai则为openai官网的api
+  "gptconfig": {
+    "type": "openai",
+    "url": "https://xxxx.openai.azure.com",
+    "apikey": "xxxxxxx"
+  },
+```
 
 ## 前端展示页面在这个仓库
 - https://github.com/aehyok/vue-qiankun
