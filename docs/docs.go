@@ -149,7 +149,7 @@ const docTemplate = `{
                 "tags": [
                     "GPT"
                 ],
-                "summary": "GPT-3.5模型聊天对话",
+                "summary": "GPT-3.5模型聊天对话(支持openai和azure两种接口)",
                 "responses": {}
             }
         },

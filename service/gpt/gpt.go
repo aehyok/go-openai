@@ -263,7 +263,7 @@ type ChatCompletionMessage struct {
 }
 
 // GetChatCompletions godoc
-// @Summary  GPT-3.5模型聊天对话
+// @Summary  GPT-3.5模型聊天对话(支持openai和azure两种接口)
 // @Description 暂时不支持上下文
 // @Tags   GPT
 //

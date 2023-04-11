@@ -118,7 +118,7 @@ paths:
       produces:
       - application/json
       responses: {}
-      summary: GPT-3.5模型聊天对话
+      summary: GPT-3.5模型聊天对话(支持openai和azure两种接口)
       tags:
       - GPT
   /openai/getCompletions:
