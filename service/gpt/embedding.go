@@ -252,7 +252,7 @@ func ChatMe(c *gin.Context) dto.ResponseResult {
 
 	messages = append(messages, system)
 	messages = append(messages, user)
-	var chatResponse = GetChatCompletionsApi(messages)
+	var chatResponse = GetChatCompletionsApi(messages, "gpt-3.5-turbo-0613")
 	var obj map[string]interface{}
 	if err := json.Unmarshal(chatResponse, &obj); err != nil {
 		panic(err)
