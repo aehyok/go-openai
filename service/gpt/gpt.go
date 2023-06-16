@@ -353,7 +353,7 @@ func GetChatCompletionWithFunctions(ctx *gin.Context) dto.ResponseResult {
 	// 这里我定义的参数是content获取传入的参数
 	content := m["content"].(string)
 	if content == "" {
-		content = "What's the weather like in Boston?"
+		content = "中国的首都是那个城市，以及这个城市的天气情况"
 	}
 	messages := make([]ChatCompletionMessage, 0)
 
