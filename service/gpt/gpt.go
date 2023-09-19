@@ -326,7 +326,8 @@ func GetChatCompletions(ctx *gin.Context) dto.ResponseResult {
 
 	messages = append(messages, user)
 
-	resp := GetChatCompletionsApi(messages, "gpt-3.5-turbo-0613")
+	resp := GetChatCompletionsApi(messages, "gpt-4-0613")
+	// resp := GetChatCompletionsApi(messages, "gpt-3.5-turbo-0613")
 	// 组装openai 接口的参数实体
 	// gpt-4   gpt-3.5-turbo
 
