@@ -224,9 +224,9 @@ func GetGeekArticleContent(ctx *gin.Context) dto.ResponseResult {
 //
 // @Router       /geek/getListByVersion [get]
 func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
-	// name := ctx.Param("version")
+	version := ctx.Query("version")
 	var dataList []model.CicdLog
-	model.DB.Where("version = ? ", "3.1.0.001").Find(&dataList)
+	model.DB.Order("createTime desc").Where("version like ? ", "%"+version+"%").Find(&dataList)
 	if len(dataList) == 0 {
 		return dto.SetResponseFailure("没有查询到数据")
 	} else {
