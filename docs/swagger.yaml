@@ -112,6 +112,17 @@ paths:
       summary: 章节内容查看
       tags:
       - geek
+  /geek/getListByVersion:
+    get:
+      consumes:
+      - application/json
+      description: 根据版本查询日志
+      produces:
+      - application/json
+      responses: {}
+      summary: CICD日志
+      tags:
+      - geek
   /openai/getChatCompletions:
     post:
       description: 暂时不支持上下文

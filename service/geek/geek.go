@@ -213,6 +213,27 @@ func GetGeekArticleContent(ctx *gin.Context) dto.ResponseResult {
 	}
 }
 
+// getListByVersion godoc
+// @Summary		CICD日志
+// @Description	根据版本查询日志
+// @Tags			geek
+//
+// @Accept			json
+//
+//	@Produce		json
+//
+// @Router       /geek/getListByVersion [get]
+func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
+	// name := ctx.Param("version")
+	var dataList []model.CicdLog
+	model.DB.Where("version = ? ", "3.1.0.001").Find(&dataList)
+	if len(dataList) == 0 {
+		return dto.SetResponseFailure("没有查询到数据")
+	} else {
+		return dto.SetResponseData(dataList)
+	}
+}
+
 func GeekList(ctx *gin.Context) {
 	var dataList []model.GeekProduct
 	// 查询全部数据 or 查询分页数据

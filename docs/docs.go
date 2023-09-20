@@ -140,6 +140,22 @@ const docTemplate = `{
                 "responses": {}
             }
         },
+        "/geek/getListByVersion": {
+            "get": {
+                "description": "根据版本查询日志",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "geek"
+                ],
+                "summary": "CICD日志",
+                "responses": {}
+            }
+        },
         "/openai/getChatCompletions": {
             "post": {
                 "description": "暂时不支持上下文",
