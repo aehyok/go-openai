@@ -217,6 +217,7 @@ func GetGeekArticleContent(ctx *gin.Context) dto.ResponseResult {
 // @Summary		CICD日志
 // @Description	根据版本查询日志
 // @Tags			geek
+// @Param			version query string true "版本号"
 //
 // @Accept			json
 //

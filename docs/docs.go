@@ -153,6 +153,15 @@ const docTemplate = `{
                     "geek"
                 ],
                 "summary": "CICD日志",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "版本号",
+                        "name": "version",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
                 "responses": {}
             }
         },

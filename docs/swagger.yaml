@@ -117,6 +117,12 @@ paths:
       consumes:
       - application/json
       description: 根据版本查询日志
+      parameters:
+      - description: 版本号
+        in: query
+        name: version
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
