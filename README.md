@@ -1,4 +1,3 @@
-
 ## 目前对接过的几个OpenAI 接口
 
 ![已经对接过的几个接口](swagger.png)
@@ -67,15 +66,20 @@ CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
 
 ```
 // 停止服务
-systemctl stop geekdemo
+systemctl stop geek
 
 // 再去拷贝文件
 
 // 再开启服务
-systemctl start geekdemo
+systemctl start geek
 ```
 
 ## 部署到linux做成systemd服务
+服务所在位置  /usr/lib/systemd/system
+
+新建一个服务  geek.service
+
+
 ```
 // geek.service
 
@@ -103,20 +107,26 @@ WantedBy=multi-user.target
 ## 设置go服务
 ```
 // 设置开机启动
-systemctl enable geekdemo.service
+systemctl enable geek.service
 
 // 启动服务
-systemctl start geekdemo.service
+systemctl start geek.service
 
 // 停止服务
-systemctl stop geekdemo.service
+systemctl stop geek.service
 
 // 重新加载配置文件
 sytemctl daemon-reload
 
 // 查看服务状态
-systemctl status geekdemo.service
+systemctl status geek.service
 
 // 查看运行日志
-journalctl -u geekdemo -f
+journalctl -u geek -f
+```
+
+## 授权文件访问权限
+
+```
+chmod 777  geekdemo
 ```
