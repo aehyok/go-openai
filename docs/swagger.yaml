@@ -112,7 +112,7 @@ paths:
       summary: 章节内容查看
       tags:
       - geek
-  /geek/getListByVersion:
+  /log/getListByVersion:
     get:
       consumes:
       - application/json
@@ -128,7 +128,7 @@ paths:
       responses: {}
       summary: CICD日志
       tags:
-      - geek
+      - log
   /openai/getChatCompletions:
     post:
       description: 暂时不支持上下文

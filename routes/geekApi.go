@@ -16,6 +16,4 @@ func GeekApi(v1 *gin.RouterGroup) {
 	v1.POST("/geek/getArticle", Wrapper(geek.GetGeekArticle))
 
 	v1.GET("/geek/getArticleContent", Wrapper(geek.GetGeekArticleContent))
-
-	v1.GET("/geek/getListByVersion", Wrapper(geek.GetListByVersion))
 }

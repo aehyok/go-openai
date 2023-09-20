@@ -140,7 +140,7 @@ const docTemplate = `{
                 "responses": {}
             }
         },
-        "/geek/getListByVersion": {
+        "/log/getListByVersion": {
             "get": {
                 "description": "根据版本查询日志",
                 "consumes": [
@@ -150,7 +150,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "geek"
+                    "log"
                 ],
                 "summary": "CICD日志",
                 "parameters": [
