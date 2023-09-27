@@ -30,6 +30,24 @@
 ## 前端展示页面在这个仓库
 - https://github.com/aehyok/vue-qiankun
 
+
+
+## linux 安装go
+- 下载链接：https://go.dev/dl/
+
+在这里可以下载到window版本、mac版本以及linux下版本。下载完毕后，分别安装即可。window和mac的安装都没什么过多的废话可以说的。这里着重简单说一下linux版本。
+
+```
+// 下载到linux文件，或者拷贝到linux对应文件夹后
+// 比如拷贝到了当前目录
+
+// 将文件解压到/usr/local
+tar -C /usr/local -xzf go1.19.5.linux-amd64.tar.gz
+
+// 修改环境变量
+export PATH=$PATH:/usr/local/go/bin
+```
+
 ## 切换为国内的仓库源
 ```
 go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/,direct
