@@ -123,6 +123,11 @@ paths:
         name: version
         required: true
         type: string
+      - description: 项目
+        in: query
+        name: project
+        required: true
+        type: string
       produces:
       - application/json
       responses: {}
