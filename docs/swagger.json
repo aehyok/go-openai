@@ -133,6 +133,22 @@
                 "responses": {}
             }
         },
+        "/log/cmd": {
+            "get": {
+                "description": "执行命令",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "log"
+                ],
+                "summary": "根据参数执行命令",
+                "responses": {}
+            }
+        },
         "/log/getListByVersion": {
             "get": {
                 "description": "根据版本查询日志",

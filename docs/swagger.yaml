@@ -112,6 +112,17 @@ paths:
       summary: 章节内容查看
       tags:
       - geek
+  /log/cmd:
+    get:
+      consumes:
+      - application/json
+      description: 执行命令
+      produces:
+      - application/json
+      responses: {}
+      summary: 根据参数执行命令
+      tags:
+      - log
   /log/getListByVersion:
     get:
       consumes:

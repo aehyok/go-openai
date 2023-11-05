@@ -8,4 +8,5 @@ import (
 
 func LogApi(v1 *gin.RouterGroup) {
 	v1.GET("/log/getListByVersion", Wrapper(cdlog.GetListByVersion))
+	v1.GET("/log/cmd", Wrapper(cdlog.Cmd))
 }
