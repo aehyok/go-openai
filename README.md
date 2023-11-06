@@ -77,6 +77,9 @@ swag init
 
 // 打包编译脚本
 CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build
+
+CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build
+
 ```
 编译完后会生成一个geekdemo的go 文件，直接拷贝到服务器/usr/local/sunlight/go/course
 

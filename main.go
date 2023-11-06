@@ -5,6 +5,7 @@ import (
 	"geekdemo/model"
 	"geekdemo/routes"
 	"geekdemo/utils"
+	"os"
 	"os/exec"
 )
 
@@ -15,43 +16,34 @@ import (
 // @BasePath /api/v1
 func main() {
 	// 定义要执行的命令列表
-	commands := []*exec.Cmd{
-		exec.Command("echo", "第一个命令"),
-		exec.Command("ls", "-l"),
-		exec.Command("echo", "第三个命令"),
-		exec.Command("pwd"),
-	}
-
-	// 遍历并执行每个命令
-	for i, cmd := range commands {
-		if i == 3 {
-			cmd.Dir = "../blog"
-		}
-		// 运行命令
-		out, err := cmd.CombinedOutput()
-		if err != nil {
-			fmt.Printf("命令%d执行出错: %s\n", i, err)
-			continue
-		}
-		// 打印命令的输出
-		fmt.Printf("命令%d输出:\n%s\n", i, string(out))
-	}
-
-	// cmd := exec.Command("bash", "-c", "ls")
-	// cmd.Dir = "../"
-
-	// output, error := cmd.CombinedOutput()
-
-	// if error != nil {
-	// 	fmt.Println(error)
-	// } else {
-	// 	fmt.Println(string(output))
+	// commands := []*exec.Cmd{
+	// 	exec.Command("echo", "第一个命令"),
+	// 	exec.Command("ls", "-l"),
+	// 	exec.Command("echo", "第三个命令"),
+	// 	exec.Command("", "", "pwd"),
 	// }
 
-	// cmd := exec.Command("ls", "-lah")
+	// 遍历并执行每个命令
+	// for i, cmd := range commands {
+	// 	if i == 3 {
+	// 		//E:\work\git-refactor\mp-h5
+	// 		cmd.Dir = "/e/work/git-refactor/mp-h5"
+	// 	}
+	// 	// 运行命令
+	// 	out, err := cmd.CombinedOutput()
+	// 	if err != nil {
+	// 		fmt.Printf("命令%d执行出错: %s\n", i, err)
+	// 		continue
+	// 	}
+	// 	// 打印命令的输出
+	// 	fmt.Printf("命令%d输出:\n%s\n", i, string(out))
+	// }
 
-	// cmd.Stdout = os.Stdout
-	// cmd.Stderr = os.Stderr
+	strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
+	cmd := exec.Command("bash", "-c", strings)
+
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
 
 	// error := cmd.Run()
 	// if error != nil {
