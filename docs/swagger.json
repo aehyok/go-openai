@@ -1,8 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "geek time",
-        "title": "极客时间 API",
+        "description": "cicd time",
+        "title": "CICD自动化 API",
         "contact": {},
         "version": "0.0.1"
     },

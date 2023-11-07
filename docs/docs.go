@@ -451,8 +451,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "",
 	BasePath:         "/api/v1",
 	Schemes:          []string{},
-	Title:            "CICD自动化部署 API",
-	Description:      "CICD time",
+	Title:            "CICD自动化 API",
+	Description:      "cicd time",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 }

@@ -9,9 +9,9 @@ import (
 	"os/exec"
 )
 
-// @title 极客时间 API
+// @title CICD自动化 API
 // @version 0.0.1
-// @description geek time
+// @description cicd time
 // @name aehyok
 // @BasePath /api/v1
 func main() {

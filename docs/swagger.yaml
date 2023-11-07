@@ -23,8 +23,8 @@ definitions:
     type: object
 info:
   contact: {}
-  description: geek time
-  title: 极客时间 API
+  description: cicd time
+  title: CICD自动化 API
   version: 0.0.1
 paths:
   /geek/GetCourseType:

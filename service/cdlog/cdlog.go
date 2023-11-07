@@ -50,19 +50,17 @@ func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
 // @Router       /log/cmd [get]
 func Cmd(ctx *gin.Context) dto.ResponseResult {
 
-	// cmdStr := `cd /E/work/git-refactor/mp-h5 && yarn build`
-
-	// cmd := exec.Command("bash", "-c", cmdStr)
-	// cmd.Stderr = os.Stderr
-	// cmd.Stdout = os.Stdout
-	// // 获取输出
-	// err := cmd.Run() // cmd.CombinedOutput()
-	// if err != nil {
-	// 	log.Fatalf("cmd.Run() failed with %s\n", err)
-	// }
-
-	strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
+	//window cmd
+	// strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
+	// strings := "cd /data/work/git-refactor/mp-h5 && yarn build" // (yarn build success)
+	strings := "cd /data/work/git-refactor/mp-h5 && git tag" //
 	cmd := exec.Command("bash", "-c", strings)
+
+	//npm yarn pnpm success
+	// cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
+
+	// git version git tag
+	// cmd.Env = append(os.Environ(), "PATH=/usr/bin:$PATH")
 
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
