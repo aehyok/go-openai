@@ -246,11 +246,15 @@ func GetSpeechToText(ctx *gin.Context) dto.ResponseResult {
 }
 
 type ChatModel struct {
-	Model     string                  `json:"model"`
-	MaxTokens int                     `json:"max_tokens"`
-	Messages  []ChatCompletionMessage `json:"messages"`
+	Model          string                  `json:"model"`
+	MaxTokens      int                     `json:"max_tokens"`
+	Messages       []ChatCompletionMessage `json:"messages"`
+	ResponseFormat ResponseFormat          `json:"response_format"`
 }
 
+type ResponseFormat struct {
+	Type string `json:"type"`
+}
 type ChatFunctionModel struct {
 	Model         string                  `json:"model"`
 	MaxTokens     int                     `json:"max_tokens"`
@@ -365,7 +369,8 @@ func GetChatCompletionWithFunctions(ctx *gin.Context) dto.ResponseResult {
 
 	messages = append(messages, user)
 
-	resp := GetChatCompletionsApi_WithFunction(messages, "gpt-3.5-turbo-0613")
+	//gpt-3.5-turbo-0613
+	resp := GetChatCompletionsApi_WithFunction(messages, "gpt-4-1106-preview")
 	// 组装openai 接口的参数实体
 	// gpt-4   gpt-3.5-turbo
 
@@ -406,43 +411,20 @@ func get_current_weather(location string, unit string) (string, error) {
 func GetChatCompletionsApi(messages []ChatCompletionMessage, apiModel string) []byte {
 	var model string
 	if utils.GptConfig.Type == "openai" {
-		// model = "gpt-3.5-turbo"
-		model = apiModel
+		model = "gpt-4-1106-preview"
 	} else {
 		model = "gpt-35-turbo"
 	}
 
-	// var functions []FunctionSchema
-
-	// funcByte := []byte(`
-	// 	[
-	// 		{
-	// 			"name": "get_current_weather",
-	// 			"description": "Get the current weather in a given location",
-	// 			"parameters": {
-	// 					"type": "object",
-	// 					"properties": {
-	// 							"location": {
-	// 									"type": "string",
-	// 									"description": "The city and state, e.g. San Francisco, CA"
-	// 							},
-	// 							"unit": {"type": "string" }
-	// 					},
-	// 					"required": ["location"]
-	// 			}
-	// 		}
-	// 	]
-	// `)
-
-	// err := json.Unmarshal(funcByte, &functions)
-	// if err != nil {
-	// 	fmt.Println("error:", err)
-	// }
+	responseFormat := ResponseFormat{
+		Type: "json_object",
+	}
 
 	chatModel := ChatModel{
-		Model:     model,
-		MaxTokens: 2000,
-		Messages:  messages,
+		Model:          model,
+		MaxTokens:      2000,
+		Messages:       messages,
+		ResponseFormat: responseFormat,
 	}
 
 	// 将实体结构转换为byte数组

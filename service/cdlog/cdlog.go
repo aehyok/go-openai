@@ -42,6 +42,7 @@ func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
 // @Summary		根据参数执行命令
 // @Description	执行命令
 // @Tags			log
+// @Param			cmdStr query string true "命令行"
 //
 // @Accept			json
 //
@@ -49,18 +50,22 @@ func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
 //
 // @Router       /log/cmd [get]
 func Cmd(ctx *gin.Context) dto.ResponseResult {
-
+	cmdStr := ctx.Query("cmdStr")
+	fmt.Println(cmdStr)
 	//window cmd
 	// strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
-	// strings := "cd /data/work/git-refactor/mp-h5 && yarn build" // (yarn build success)
-	strings := "cd /data/work/git-refactor/mp-h5 && git tag" //
-	cmd := exec.Command("bash", "-c", strings)
+	strings := "cd /data/work/git-refactor/mp-h5 && yarn build" // (yarn build success)
 
 	//npm yarn pnpm success
 	// cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
 
 	// git version git tag
 	// cmd.Env = append(os.Environ(), "PATH=/usr/bin:$PATH")
+
+	// strings := "cd /data/work/github/zx-deploy && " + cmdStr
+	fmt.Println(strings)
+	cmd := exec.Command("bash", "-c", strings)
+	cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
 
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
