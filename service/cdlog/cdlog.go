@@ -54,7 +54,7 @@ func Cmd(ctx *gin.Context) dto.ResponseResult {
 	fmt.Println(cmdStr)
 	//window cmd
 	// strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
-	strings := "cd /data/work/git-refactor/mp-h5 && yarn build" // (yarn build success)
+	// strings := "cd /data/work/git-refactor/mp-h5 && yarn build" // (yarn build success)
 
 	//npm yarn pnpm success
 	// cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
@@ -62,7 +62,8 @@ func Cmd(ctx *gin.Context) dto.ResponseResult {
 	// git version git tag
 	// cmd.Env = append(os.Environ(), "PATH=/usr/bin:$PATH")
 
-	// strings := "cd /data/work/github/zx-deploy && " + cmdStr
+	// 增加安全性，可以设置执行命令的列表，不在其中的则不允许执行
+	strings := "cd /data/work/github/zx-deploy && " + cmdStr
 	fmt.Println(strings)
 	cmd := exec.Command("bash", "-c", strings)
 	cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
