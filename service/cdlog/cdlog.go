@@ -63,17 +63,17 @@ func Cmd(ctx *gin.Context) dto.ResponseResult {
 	// cmd.Env = append(os.Environ(), "PATH=/usr/bin:$PATH")
 
 	// 增加安全性，可以设置执行命令的列表，不在其中的则不允许执行
-	strings := "cd /data/work/github/zx-deploy && " + cmdStr
+	strings := "pwd &&" + cmdStr
 	fmt.Println(strings)
 	cmd := exec.Command("bash", "-c", strings)
 	cmd.Env = append(os.Environ(), "PATH=/usr/local/lib/nodejs/bin:$PATH")
-
+	cmd.Dir = "/data/work/github/zx-deploy"
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 
-	error := cmd.Run()
-	if error != nil {
-		fmt.Println(error)
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
 	}
 
 	return dto.SetResponseFailure("没有查询到数据")
