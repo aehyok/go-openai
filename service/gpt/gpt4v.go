@@ -8,7 +8,6 @@ import (
 	"geekdemo/utils"
 
 	"github.com/gin-gonic/gin"
-	"github.com/valyala/fasthttp"
 )
 
 type ChatModelVision struct {
@@ -95,6 +94,10 @@ func GetChatCompletionWithVisions(ctx *gin.Context) dto.ResponseResult {
 	return dto.SetResponseData(obj)
 }
 
+// func GetTextToSpecch(ctx *gin.Context) dto.ResponseResult {
+
+// }
+
 func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, apiModel string) []byte {
 	var model string
 	if utils.GptConfig.Type == "openai" {
@@ -131,37 +134,15 @@ func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, ap
 		url = utils.GptConfig.Url + `/openai/deployments/ChatGPT/chat/completions?api-version=2023-03-15-preview`
 	}
 
-	// 定义fasthttp请求对象
-	req := fasthttp.AcquireRequest()
-
-	// 使用defer关键字可以确保在函数返回之前，即使出现了错误，也会释放请求对象的内存，从而避免内存泄漏和浪费。
-	// 当请求处理完成时，应该调用fasthttp.ReleaseRequest(req)来将请求对象返回给对象池。
-	defer fasthttp.ReleaseRequest(req)
-
-	// 设置请求的url地址，请求头，以及通过SetBody设置请求的参数
-	req.SetRequestURI(url)
-	req.Header.SetMethod("POST")
-	req.Header.Set("Content-Type", "application/json")
-	// req.Header.Set("Content-Type", "application/octet-stream")
-	if utils.GptConfig.Type == "openai" {
-		req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
-	} else {
-		req.Header.Set("api-key", utils.GptConfig.ApiKey)
-	}
-
-	//gpt-3.5-turbo-0301
-	req.SetBody(bytes)
-
-	// 这里跟上面AcquireRequest 类似的，一个是请求对象，一个是返回对象
-	resp := fasthttp.AcquireResponse()
-	defer fasthttp.ReleaseResponse(resp)
-
-	// 通过fasthttp.Do真正的发起对象
-	if err := fasthttp.Do(req, resp); err != nil {
-		fmt.Println("Error:", err)
-		// return dto.SetResponseFailure("调用openai发生错误")
-		// ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
-
-	}
-	return resp.Body()
+	return utils.SendRequest(url, bytes)
 }
+
+// curl https://api.openai.com/v1/audio/speech \
+//   -H "Authorization: Bearer $OPENAI_API_KEY" \
+//   -H "Content-Type: application/json" \
+//   -d '{
+//     "model": "tts-1",
+//     "input": "Today is a wonderful day to build something people love!",
+//     "voice": "alloy"
+//   }' \
+//   --output speech.mp3
