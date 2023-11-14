@@ -94,9 +94,44 @@ func GetChatCompletionWithVisions(ctx *gin.Context) dto.ResponseResult {
 	return dto.SetResponseData(obj)
 }
 
-// func GetTextToSpecch(ctx *gin.Context) dto.ResponseResult {
+type TextToSpeechModel struct {
+	Model string `json:"model"`
+	Input string `json:"input"`
+	Voice string `json:"voice"`
+}
 
-// }
+// getTextToSpecch godoc
+// @Summary  文本转换为语音
+// @Description 支持6中口音
+// @Tags   GPT
+//
+// @Produce  json
+//
+// @Router       /openai/getTextToSpecch [post]
+func GetTextToSpeech(ctx *gin.Context) dto.ResponseResult {
+	data, _ := ctx.GetRawData()
+	var m map[string]interface{}
+	_ = json.Unmarshal(data, &m)
+
+	content := m["content"].(string)
+	fmt.Printf(content)
+
+	textToSpeechModel := TextToSpeechModel{
+		Model: "tts-1-1106",
+		Input: content,
+		Voice: "alloy",
+	}
+
+	bytes, err := json.Marshal(textToSpeechModel)
+	if err != nil {
+		fmt.Println("error:", err)
+		// return dto.SetResponseFailure("数据转换错误")
+	}
+
+	result := utils.SendRequest("https://api.openai.com/v1/audio/speech", bytes)
+	fmt.Println(string(result), "result")
+	return dto.SetResponseData(result)
+}
 
 func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, apiModel string) []byte {
 	var model string

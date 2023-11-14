@@ -27,7 +27,10 @@ func SendRequest(url string, body []byte) []byte {
 	defer fasthttp.ReleaseResponse(resp)
 
 	// 通过fasthttp.Do真正的发起对象
-	if err := fasthttp.Do(req, resp); err != nil {
+	// Client
+	client := &fasthttp.Client{}
+
+	if err := client.Do(req, resp); err != nil {
 		fmt.Println("Error:", err)
 		// return dto.SetResponseFailure("调用openai发生错误")
 		// ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
