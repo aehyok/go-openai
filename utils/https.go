@@ -6,7 +6,7 @@ import (
 	"github.com/valyala/fasthttp"
 )
 
-func SendRequest(url string, body []byte) []byte {
+func SendRequest(url string, body string) []byte {
 	// 定义fasthttp请求对象
 	req := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(req)
@@ -21,20 +21,19 @@ func SendRequest(url string, body []byte) []byte {
 		req.Header.Set("api-key", GptConfig.ApiKey)
 	}
 
-	req.SetBody(body)
+	req.SetBodyString(body)
 
 	resp := fasthttp.AcquireResponse()
 	defer fasthttp.ReleaseResponse(resp)
 
 	// 通过fasthttp.Do真正的发起对象
 	// Client
-	client := &fasthttp.Client{}
+	// client := &fasthttp.Client{}
 
-	if err := client.Do(req, resp); err != nil {
+	if err := fasthttp.Do(req, resp); err != nil {
 		fmt.Println("Error:", err)
 		// return dto.SetResponseFailure("调用openai发生错误")
 		// ctx.JSON(200, gin.H{"data": "调用openai发生错误"})
-
 	}
 	return resp.Body()
 }

@@ -1,8 +1,13 @@
 package service
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+	"time"
 
 	"geekdemo/model/dto"
 	"geekdemo/utils"
@@ -60,7 +65,7 @@ func GetChatCompletionWithVisions(ctx *gin.Context) dto.ResponseResult {
 
 	contentItem := ContentItem{
 		Type: "text",
-		Text: "Please, based on the UI of the image, help me convert the page into frontend code, using Vue3 and the component library Element-Plus.?  Finally  translate the result into Chinese again. ",
+		Text: "Please, based on the UI of the image, help me convert the page into frontend code, using Vue3 and the component library Element-Plus?",
 	}
 
 	imageItem := ContentItem{
@@ -84,9 +89,10 @@ func GetChatCompletionWithVisions(ctx *gin.Context) dto.ResponseResult {
 	// gpt-4   gpt-3.5-turbo
 
 	// 将返回对象中的body数据转换为json数据
+	fmt.Println("open接口返回数据为Body:", string(resp))
 	var obj map[string]interface{}
 	if err := json.Unmarshal(resp, &obj); err != nil {
-		panic(err)
+		fmt.Println(err, "reesp")
 	}
 	fmt.Println("Body:", obj)
 
@@ -116,21 +122,60 @@ func GetTextToSpeech(ctx *gin.Context) dto.ResponseResult {
 	content := m["content"].(string)
 	fmt.Printf(content)
 
-	textToSpeechModel := TextToSpeechModel{
-		Model: "tts-1-1106",
-		Input: content,
-		Voice: "alloy",
+	// req.SetRequestURI("https://api.openai.com/v1/audio/speech")
+	// req.Header.SetMethod("POST")
+	// req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
+	// req.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	body := []byte(`{
+		"model": "tts-1",
+		"input": "Today is a wonderful day to build something people love!",
+		"voice": "alloy"
+	}`)
+
+	// Create a new HTTP client with a timeout
+	client := &http.Client{
+		Timeout: time.Minute,
 	}
 
-	bytes, err := json.Marshal(textToSpeechModel)
+	// Create a new request using http
+	req, err := http.NewRequest("POST", utils.GptConfig.Url+"/v1/audio/speech", bytes.NewBuffer(body))
 	if err != nil {
-		fmt.Println("error:", err)
-		// return dto.SetResponseFailure("数据转换错误")
+		log.Fatalf("Error Occurred. %+v", err)
 	}
 
-	result := utils.SendRequest("https://api.openai.com/v1/audio/speech", bytes)
-	fmt.Println(string(result), "result")
-	return dto.SetResponseData(result)
+	// Set the headers
+	req.Header.Set("Authorization", "Bearer "+utils.GptConfig.ApiKey)
+	req.Header.Set("Content-Type", "application/json; charset=utf-8")
+
+	// Send the request via a client
+	resp, err := client.Do(req)
+	if err != nil {
+		log.Fatalf("Error sending request to API endpoint. %+v", err)
+	}
+
+	// Defer the closing of the body
+	defer resp.Body.Close()
+
+	// Read the response body
+	respBody, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatalf("Error reading response body. %+v", err)
+	}
+
+	// Check the status code
+	if resp.StatusCode != http.StatusOK {
+		log.Fatalf("Unexpected status code: %d. Message: %s", resp.StatusCode, respBody)
+	}
+
+	// Save the MP3 file
+	err = ioutil.WriteFile("output.mp3", respBody, 0666)
+	if err != nil {
+		log.Fatalf("Error saving the MP3 file: %+v", err)
+	}
+
+	log.Println("MP3 file saved successfully.")
+	return dto.SetResponseSuccess("success")
 }
 
 func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, apiModel string) []byte {
@@ -155,9 +200,9 @@ func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, ap
 	// 将实体结构转换为byte数组
 	bytes, err := json.Marshal(chatModel)
 
-	fmt.Println(string(bytes), "bytes")
+	fmt.Println("实体结构转换为", string(bytes))
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Println("error-struct实体转换错误:", err.Error())
 		// return dto.SetResponseFailure("数据转换错误")
 	}
 
@@ -169,7 +214,7 @@ func GetChatCompletionsApi_WithVision(messages []ChatCompletionMessageVision, ap
 		url = utils.GptConfig.Url + `/openai/deployments/ChatGPT/chat/completions?api-version=2023-03-15-preview`
 	}
 
-	return utils.SendRequest(url, bytes)
+	return utils.SendRequest(url, string(bytes))
 }
 
 // curl https://api.openai.com/v1/audio/speech \
