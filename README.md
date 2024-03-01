@@ -70,6 +70,11 @@ go install github.com/swaggo/swag/cmd/swag
 swag init
 ```
 
+## 开发运行
+```
+go run main.go
+```
+
 ## 编译发布到linux
 ```
 // 生成接口文档

@@ -5,8 +5,6 @@ import (
 	"geekdemo/model"
 	"geekdemo/routes"
 	"geekdemo/utils"
-	"os"
-	"os/exec"
 )
 
 // @title CICD自动化 API
@@ -39,11 +37,11 @@ func main() {
 	// 	fmt.Printf("命令%d输出:\n%s\n", i, string(out))
 	// }
 
-	strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
-	cmd := exec.Command("bash", "-c", strings)
+	// strings := "cd /E/work/git-refactor/mp-h5 && yarn build"
+	// cmd := exec.Command("bash", "-c", strings)
 
-	cmd.Stdout = os.Stdout
-	cmd.Stderr = os.Stderr
+	// cmd.Stdout = os.Stdout
+	// cmd.Stderr = os.Stderr
 
 	// error := cmd.Run()
 	// if error != nil {

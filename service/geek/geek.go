@@ -1,6 +1,7 @@
 package geek
 
 import (
+	"fmt"
 	"geekdemo/model"
 	"geekdemo/model/dto"
 	"log"
@@ -130,67 +131,27 @@ func GetGeekCourse(ctx *gin.Context) dto.ResponseResult {
 // @Description	查看课程下的章节
 // @Tags			geek
 // @Param			Authorization header string true "token"
-// @Param			GeekCourseModel body GeekCourseModel true "参数"
+// @Param			id query string true "参数"
 //
 // @Accept			json
 // @Produce		    json
 //
-// @Router       /geek/GetGeekArticle [post]
+// @Router       /geek/GetGeekArticle [get]
 func GetGeekArticle(ctx *gin.Context) dto.ResponseResult {
 	var dataList []model.GeekArticle
-	var geekCourseModel GeekCourseModel
-	if err := ctx.ShouldBindJSON(&geekCourseModel); err != nil {
-		return dto.SetResponseFailure("err--err--err--err")
-	}
-
-	limit := geekCourseModel.Limit
-	page := geekCourseModel.Page
-	typeId, _ := strconv.Atoi(geekCourseModel.TypeId)
-
-	// limit, _ := strconv.Atoi(ctx.PostForm("limit"))
-	// page, _ := strconv.Atoi(ctx.PostForm("page"))
-	// typeId, _ := strconv.Atoi(ctx.PostForm("typeId"))
-
-	// 判断是否需要分页
-	if limit == 0 {
-		limit = -1
-	}
-	if page == 0 {
-		page = -1
-	}
-
-	offsetVal := (page - 1) * limit // 固定写法 记住就行
-	if page == -1 && limit == -1 {
-		offsetVal = -1
-	}
-
-	// 返回一个总数
-	var total int64
-	if typeId == 0 {
-		model.DB.Model(dataList).Count(&total).Limit(limit).Offset(offsetVal).Find(&dataList)
-	} else {
-		model.DB.Model(dataList).Where("typeId = ? ", typeId).Count(&total).Limit(limit).Offset(offsetVal).Find(&dataList)
-	}
+	id := ctx.Query("id")
+	fmt.Println(id, "err111")
+	model.DB.Model(dataList).Where("productId = ? ", id).Find(&dataList)
 	if len(dataList) == 0 {
 		return dto.SetResponseFailure("没有查询到数据")
 	} else {
-		var intTotal int = int(total)
-		var pages = (intTotal / limit)
-		if pages == 0 || (intTotal%limit) != 0 {
-			pages = pages + 1
-		}
-		log.Println(pages, "2", intTotal, limit)
 		return dto.SetResponseData(gin.H{
-			"docs":  dataList,
-			"total": total,
-			"page":  page,
-			"limit": limit,
-			"pages": pages,
+			"docs": dataList,
 		})
 	}
 }
 
-// getArticleContent godoc
+// GetArticleContent godoc
 // @Summary		章节内容查看
 // @Description	查看章节下的内容
 // @Tags			geek
@@ -200,70 +161,16 @@ func GetGeekArticle(ctx *gin.Context) dto.ResponseResult {
 // @Accept			json
 // @Produce		    json
 //
-// @Router       /geek/getArticleContent [get]
+// @Router       /geek/GetArticleContent [get]
 func GetGeekArticleContent(ctx *gin.Context) dto.ResponseResult {
 	id := ctx.Query("id")
-	var dataList []model.GeekArticle
+	fmt.Println("11111", id)
+	var data model.GeekArticle
 	// 查询数据库
-	model.DB.Where("id = ? ", id).Find(&dataList)
-	if len(dataList) == 0 {
+	model.DB.Where("id = ? ", id).Find(&data)
+	if (data.Id) == 0 {
 		return dto.SetResponseFailure("没有查询到数据")
 	} else {
-		return dto.SetResponseData(dataList)
+		return dto.SetResponseData(data)
 	}
-}
-
-func GeekList(ctx *gin.Context) {
-	var dataList []model.GeekProduct
-	// 查询全部数据 or 查询分页数据
-	// strconv.Atoi() 字符串转整型
-	// ctx.Query("limit") url截取请求参数
-	// ctx.PostForm("limit") 请求体截取请求参数
-	cc := ctx.PostForm("limit")
-	log.Println("11111", cc)
-	limit, _ := strconv.Atoi(ctx.PostForm("limit"))
-	page, _ := strconv.Atoi(ctx.PostForm("page"))
-
-	// 判断是否需要分页
-	if limit == 0 {
-		limit = -1
-	}
-	if page == 0 {
-		page = -1
-	}
-
-	offsetVal := (page - 1) * limit // 固定写法 记住就行
-	if page == -1 && limit == -1 {
-		offsetVal = -1
-	}
-
-	// 返回一个总数
-	var total int64
-
-	// 查询数据库
-	model.DB.Model(dataList).Count(&total).Limit(limit).Offset(offsetVal).Find(&dataList)
-
-	// 插入
-	// supplier := model.GeekProduct{Title: "全栈", Remark: "牛批"}
-	// model.DB.Create(&supplier)
-
-	if len(dataList) == 0 {
-		ctx.JSON(200, gin.H{
-			"msg":  "没有查询到数据",
-			"code": 400,
-			"data": gin.H{},
-		})
-	} else {
-		ctx.JSON(200, gin.H{
-			"msg":  "查询成功",
-			"code": 200,
-			"data": gin.H{
-				"list":  dataList,
-				"total": total,
-				"page":  page,
-				"limit": limit,
-			},
-		})
-	}
-
 }

@@ -7,13 +7,11 @@ import (
 )
 
 func GeekApi(v1 *gin.RouterGroup) {
-	v1.POST("/geek/alllist", geek.GeekList)
+	v1.GET("/geek/GetCourseType", Wrapper(geek.GetGeekCourseType))
 
-	v1.GET("/geek/getCourseType", Wrapper(geek.GetGeekCourseType))
+	v1.POST("/geek/GetGeekCourse", Wrapper(geek.GetGeekCourse))
 
-	v1.POST("/geek/getCourse", Wrapper(geek.GetGeekCourse))
+	v1.GET("/geek/GetGeekArticle", Wrapper(geek.GetGeekArticle))
 
-	v1.POST("/geek/getArticle", Wrapper(geek.GetGeekArticle))
-
-	v1.GET("/geek/getArticleContent", Wrapper(geek.GetGeekArticleContent))
+	v1.GET("/geek/GetArticleContent", Wrapper(geek.GetGeekArticleContent))
 }
