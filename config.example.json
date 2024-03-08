@@ -9,6 +9,10 @@
     "apikey":"xxxx",
     "collectname":"aehyok"
   },
+  "claudeconfig": {
+    "url": "https://api.anthropic.com",
+    "apikey": "sk-xxxxxxxxx-xxxx"
+  },
   "databaseconfig": {
     "username": "course",
     "password": "123456",
