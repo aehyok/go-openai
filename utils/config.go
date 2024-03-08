@@ -40,10 +40,16 @@ type GPT struct {
 	ApiKey string
 }
 
+type Claude struct {
+	Url    string
+	ApiKey string
+}
+
 var (
 	DatabaseConfig Database
 	QdrantConfig   Qdrant
 	GptConfig      GPT
+	ClaudeConfig   Claude
 )
 
 func init() {
@@ -69,6 +75,11 @@ func init() {
 
 	if err := viper.UnmarshalKey("gptConfig", &GptConfig); err != nil {
 		fmt.Println("Error gpt config:", err)
+		return
+	}
+
+	if err := viper.UnmarshalKey("claudeconfig", &ClaudeConfig); err != nil {
+		fmt.Println("Error claude config:", err)
 		return
 	}
 

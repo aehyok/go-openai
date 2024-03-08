@@ -21,6 +21,7 @@ func NewRouter() *gin.Engine {
 	v1 := r.Group("/api/v1")
 	{
 		ChatApi(v1)
+		ClaudeApi(v1)
 		LogApi(v1)
 		v1.POST("/user/login", Wrapper(user.Login))
 		v1.Use(middleware.JWT())
