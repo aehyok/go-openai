@@ -156,20 +156,3 @@ journalctl -u geek -f
 ```
 chmod 777  geekdemo
 ```
-
-
-
-
-## claude3
-```
-curl   \
-     --header "x-api-key: sk-ant-api03-y91L11111114TAOgAje-IkKQqkfKoEr2BQzDORK0vMrytoRkJm8ZymNJDxNtxbotSe_J6EZwtbi1kehONkVz-YzhH2gQQ-u4M4iAAA" \
-     --header "anthropic-version: 2023-06-01" \
-     --header "content-type: application/json" \
-     --data \
-'{
-    "model": "claude-2.1",
-    "max_tokens_to_sample": 1024,
-    "prompt": "\n\nHuman: Hello, Claude\n\nAssistant:"
-}'
-```
