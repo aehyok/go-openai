@@ -163,7 +163,7 @@ chmod 777  geekdemo
 ## claude3
 ```
 curl   \
-     --header "x-api-key: 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" \
+     --header "x-api-key: sk-ant-api03-y91L11111114TAOgAje-IkKQqkfKoEr2BQzDORK0vMrytoRkJm8ZymNJDxNtxbotSe_J6EZwtbi1kehONkVz-YzhH2gQQ-u4M4iAAA" \
      --header "anthropic-version: 2023-06-01" \
      --header "content-type: application/json" \
      --data \
