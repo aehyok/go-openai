@@ -26,7 +26,7 @@ func GetListByVersion(ctx *gin.Context) dto.ResponseResult {
 	version := ctx.Query("version")
 	project := ctx.Query("project")
 	var dataList []model.CicdLog
-	sql := model.DB.Order("createTime desc").Where("version like ? ", "%"+version+"%")
+	sql := model.DB.Order("createTime asc").Where("version like ? ", "%"+version+"%")
 	if project != "" {
 		sql = sql.Where("project= ?", project)
 	}

@@ -53,7 +53,7 @@ func GetChats(ctx *gin.Context) dto.ResponseResult {
 		panic(err)
 	}
 	fmt.Println("Body:", obj)
-	return dto.SetResponseData(obj["choices"])
+	return dto.SetResponseData(obj)
 }
 
 type ImageModel struct {
