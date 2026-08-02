@@ -145,11 +145,15 @@ func UpdateUser(ctx *gin.Context) dto.ResponseResult {
 // @Router       /user/{id} [get]
 func GetUser(ctx *gin.Context) dto.ResponseResult {
 	// 获取路径参数
-	id := ctx.Param("id")
+	idStr := ctx.Param("id")
+	parsedId, err := strconv.Atoi(idStr)
+	if err != nil {
+		return dto.SetResponseFailure("无效的ID参数")
+	}
 	var user model.BasicUser
 	// 查询数据库
 
-	if err := model.DB.First(&user, id).Error; err != nil {
+	if err := model.DB.First(&user, parsedId).Error; err != nil {
 		fmt.Println(err, "err111")
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			// 处理记录不存在的情况
